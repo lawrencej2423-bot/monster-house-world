@@ -28,9 +28,9 @@ M.ANCHOR_RADIO       = "BotStation_Radio"       -- behind DJBooth (34, 0, 27.8)
 -- server to distance-validate station-occupation claims (the docs'
 -- ScoreSystem rule: never trust the client, re-check on the server).
 M.ANCHOR_POS = {
-    BotStation_TriviaHost = { x = 20.5, z = 26.5 },
-    BotStation_RPS        = { x = 7.5,  z = 13.5 },
-    BotStation_Radio      = { x = 34.0, z = 27.8 },
+    BotStation_TriviaHost = { x = 220.5, z = 26.5 },
+    BotStation_RPS        = { x = 207.5, z = 13.5 },
+    BotStation_Radio      = { x = 234.0, z = 27.8 },
 }
 
 -- DESIGN.md section 3 objects used by THIS section (exact names).
@@ -39,13 +39,13 @@ M.OBJ_HOST_SPOT     = "HostSpot"
 M.OBJ_DJ_BOOTH      = "DJBooth"
 M.OBJ_RADIO_SIGN    = "RadioSign"
 M.OBJ_RPS_CIRCLE    = "RPSCircle"
-M.OBJ_RPS_PODIUM_A  = "RPSPodium_A"     -- (5.5, 0, 10)
+M.OBJ_RPS_PODIUM_A  = "RPSPodium_A"     -- (205.5, 0, 10)
 M.OBJ_RPS_PODIUM_B  = "RPSPodium_B"     -- (9.5, 0, 10)
 M.OBJ_RPS_SIGN      = "RPSSign"
 
 M.PODIUM_POS = {
-    RPSPodium_A = { x = 5.5, z = 10.0 },
-    RPSPodium_B = { x = 9.5, z = 10.0 },
+    RPSPodium_A = { x = 205.5, z = 10.0 },
+    RPSPodium_B = { x = 209.5, z = 10.0 },
 }
 
 -- How close (ground-plane units) a character must be to a spot for the
