@@ -149,36 +149,26 @@ jobs:
           (Split-Path $luac) | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
           & $luac -v
 
-      - name: Syntax-check all Lua files (luac -p)
+      # FIX round 3 (pipeline-fix): the raw find+luac loop had two
+      # problems. (1) It fed Highrise Studio's TYPED Lua straight to
+      # stock luac: annotations like `local x : UILabel = nil` and
+      # `function self:OnTriggerEnter(other : Collider)` are valid
+      # Studio Lua (the official docs' examples use them) but luac
+      # reports them as syntax errors. (2) `find .` picked up the
+      # `.lua/` install directory built by gh-actions-lua itself
+      # ("cannot open ./.lua: Permission denied"). Both are checker
+      # bugs, not script bugs. 08-qa/luac_check.py fixes both: it
+      # skips dot-directories, strips ONLY the type annotations into
+      # temp copies, and runs luac -p on those — the game scripts
+      # are never edited. If luac is somehow missing it prints
+      # SKIPPED and exits 0; a failed install is already caught by
+      # the "Lua install" verdict row above.
+      - name: Syntax-check all Lua files (luac -p, Highrise types stripped)
         id: lua
         continue-on-error: true
         shell: bash
         run: |
-          LUAC=""
-          for c in luac54 luac lua54 lua; do
-            if command -v "$c" >/dev/null 2>&1; then LUAC="$c"; break; fi
-          done
-          if [ -z "$LUAC" ]; then
-            echo "No Lua interpreter found on PATH - the install step must have failed."
-            exit 1
-          fi
-          # luac parses; plain lua falls back to a loadfile() parse check.
-          check_one() {
-            if [[ "$LUAC" == luac* ]]; then "$LUAC" -p "$1";
-            else "$LUAC" -e "assert(loadfile(arg[1]))" "$1"; fi
-          }
-          mapfile -t files < <(find . -name "*.lua" -not -path "./.git/*" | sort)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No Lua files found yet - check skipped (nothing to validate)."
-            exit 0
-          fi
-          fail=0
-          for f in "${files[@]}"; do
-            if check_one "$f"; then echo "OK    $f"; else echo "BAD   $f"; fail=1; fi
-          done
-          echo ""
-          echo "${#files[@]} Lua file(s) checked with $LUAC."
-          exit $fail
+          python 08-qa/luac_check.py
 
       # ---- Check 3: QA tests from section 08-qa -------------------------
       # Contract (see 07-pipeline/PIPELINE.md): if 08-qa exists, the pipeline

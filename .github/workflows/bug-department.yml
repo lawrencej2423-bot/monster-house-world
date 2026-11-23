@@ -194,35 +194,21 @@ jobs:
           (Split-Path $luac) | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
           & $luac -v
 
-      - name: Syntax-check all Lua files (luac -p)
+      # FIX round 3 (pipeline-fix): same checker fix as Build Checks.
+      # The old find+luac loop fed Highrise Studio's TYPED Lua
+      # (`local x : UILabel`, `other : Collider` — valid Studio Lua,
+      # per the official docs) straight to stock luac, which flagged
+      # the annotations as syntax errors, and `find .` also picked up
+      # the `.lua/` install directory itself. 08-qa/luac_check.py
+      # skips dot-directories, strips ONLY the annotations into temp
+      # copies, and runs luac -p on those; scripts are never edited.
+      # Missing luac -> SKIPPED + exit 0 (the install row catches it).
+      - name: Syntax-check all Lua files (luac -p, Highrise types stripped)
         id: lua
         continue-on-error: true
         shell: bash
         run: |
-          LUAC=""
-          for c in luac54 luac lua54 lua; do
-            if command -v "$c" >/dev/null 2>&1; then LUAC="$c"; break; fi
-          done
-          if [ -z "$LUAC" ]; then
-            echo "No Lua interpreter found on PATH - the install step must have failed."
-            exit 1
-          fi
-          check_one() {
-            if [[ "$LUAC" == luac* ]]; then "$LUAC" -p "$1";
-            else "$LUAC" -e "assert(loadfile(arg[1]))" "$1"; fi
-          }
-          mapfile -t files < <(find . -name "*.lua" -not -path "./.git/*" | sort)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No Lua files found yet - check skipped."
-            exit 0
-          fi
-          fail=0
-          for f in "${files[@]}"; do
-            if check_one "$f"; then echo "OK    $f"; else echo "BAD   $f"; fail=1; fi
-          done
-          echo ""
-          echo "${#files[@]} Lua file(s) checked with $LUAC."
-          exit $fail
+          python 08-qa/luac_check.py
 
       - name: Run the QA bug sweep (08-qa/sweep.py)
         id: sweep
