@@ -113,17 +113,48 @@ jobs:
           print(f"\n{len(files) - len(bad)}/{len(files)} JSON files valid.")
           sys.exit(1 if bad else 0)
 
+      # FIX (pipeline-fix): same fix as build.yml — the old URL pointed
+      # at a SourceForge folder that does not exist ("5.4.2/Windows64_bin/";
+      # the real folder is "5.4.2/Tools Executables/"), so the download
+      # 404'd on every run. Now: both official endpoints, retries, a
+      # zip-magic check (error pages are HTML), and a luac smoke test.
       - name: Install Lua on the runner
         id: lua_install
         continue-on-error: true
         shell: pwsh
         run: |
-          $url = "https://downloads.sourceforge.net/project/luabinaries/5.4.2/Windows64_bin/lua-5.4.2_Win64_bin.zip"
+          $ErrorActionPreference = "Stop"
+          $urls = @(
+            "https://sourceforge.net/projects/luabinaries/files/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip/download",
+            "https://downloads.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip"
+          )
           $zip = Join-Path $env:RUNNER_TEMP "lua.zip"
           $dest = Join-Path $env:RUNNER_TEMP "lua"
-          Invoke-WebRequest -Uri $url -OutFile $zip
+          $ok = $false
+          foreach ($url in $urls) {
+            for ($try = 1; $try -le 3 -and -not $ok; $try++) {
+              try {
+                Write-Host "Downloading Lua from $url (attempt $try)"
+                Invoke-WebRequest -Uri $url -OutFile $zip -MaximumRedirection 10
+                # A real zip starts with 'PK'; an error page is HTML.
+                $bytes = [System.IO.File]::ReadAllBytes($zip)
+                if ($bytes.Length -gt 10000 -and $bytes[0] -eq 0x50 -and $bytes[1] -eq 0x4B) {
+                  $ok = $true
+                } else {
+                  Write-Warning "Download was not a zip file ($($bytes.Length) bytes) - retrying"
+                }
+              } catch {
+                Write-Warning "Download failed: $($_.Exception.Message)"
+              }
+            }
+            if ($ok) { break }
+          }
+          if (-not $ok) { throw "Could not download the official Lua binaries zip from SourceForge." }
           Expand-Archive -Path $zip -DestinationPath $dest -Force
-          $dest | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          $luac = Get-ChildItem -Path $dest -Recurse -Filter "luac*.exe" | Select-Object -First 1
+          if (-not $luac) { throw "No luac executable found inside the downloaded zip." }
+          $luac.Directory.FullName | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          & $luac.FullName -v
           Get-ChildItem $dest
 
       - name: Syntax-check all Lua files (luac -p)
