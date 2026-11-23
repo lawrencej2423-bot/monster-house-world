@@ -26,7 +26,7 @@
 #
 # VERIFIED vs ASSUMED (details in FINISHER_RUNBOOK.md):
 #   VERIFIED  Unity Hub silent install: UnityHubSetup.exe /S, from
-#             https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe
+#             https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup-x64.exe
 #             (Unity's own deployment docs).
 #   VERIFIED  Unity Hub headless editor install pattern:
 #             "Unity Hub.exe" -- --headless install --version <v>
@@ -102,7 +102,7 @@ jobs:
       - name: Download Unity Hub
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe" -OutFile "$env:RUNNER_TEMP\UnityHubSetup.exe"
+          Invoke-WebRequest -Uri "https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup-x64.exe" -OutFile "$env:RUNNER_TEMP\UnityHubSetup.exe"
 
       - name: Install Unity Hub silently
         shell: pwsh
