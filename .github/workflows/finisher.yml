@@ -1,0 +1,231 @@
+# ============================================================================
+# finisher.yml -- DRAFT finisher workflow for the Monster House Highrise world
+#
+# STATUS: DRAFT / PREP ONLY. This file lives in finisher-prep/ on purpose.
+# To arm it, copy it to .github/workflows/finisher.yml in the repo. It is
+# workflow_dispatch ONLY -- it never runs on push and never runs on a timer.
+#
+# WHAT IT HONESTLY DOES
+#   Automates everything that can be automated today:
+#     1. converts the JSON manifests into the Placements Lua module,
+#     2. silently installs Unity Hub and the pinned Unity Editor
+#        (2022.3.30f1) on a free windows-latest runner,
+#     3. assembles a project-staging folder (all Lua/UXML/manifests +
+#        generated Placements.lua in the layout a Studio project expects)
+#        and uploads it as a run artifact.
+#   It does NOT -- and currently cannot -- do the last three steps:
+#     - create/open the project in Highrise Studio Hub (no documented CLI;
+#       Hub is an interactive GUI app),
+#     - press Play in a signed-in Unity session,
+#     - press Upload (requires the OWNER's Highrise sign-in inside Unity;
+#       credentials are never stored in this repo or in Actions secrets
+#       for this project -- see FINISHER_RUNBOOK.md).
+#   Those steps are stubbed below as clearly-marked MANUAL steps that print
+#   instructions into the run log and summary. Anyone claiming this
+#   workflow uploads the world by itself is wrong.
+#
+# VERIFIED vs ASSUMED (details in FINISHER_RUNBOOK.md):
+#   VERIFIED  Unity Hub silent install: UnityHubSetup.exe /S, from
+#             https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe
+#             (Unity's own deployment docs).
+#   VERIFIED  Unity Hub headless editor install pattern:
+#             "Unity Hub.exe" -- --headless install --version <v>
+#             --changeset <c> (Unity Hub CLI, used by VRChat VCC docs).
+#   ASSUMED   The exact changeset hash for 2022.3.30f1 (input below; the
+#             runbook says how to confirm it). Newer Hub versions may
+#             accept --version alone.
+#   UNVERIFIED Highrise Studio Hub headless install. There is NO published
+#             silent-install flag or direct installer URL in Highrise's
+#             docs (verified 2026-11-22: the download is a button on
+#             https://create.highrise.game/highrise-studio). The step
+#             below is therefore an OPTIONAL, input-driven attempt that is
+#             skipped unless a human supplies an installer URL, and its
+#             failure does not fail the run.
+# ============================================================================
+
+name: Finisher (DRAFT - manual dispatch only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      unity_changeset:
+        description: "Unity 2022.3.30f1 changeset hash (confirm per runbook; needed by older Hub CLI versions)"
+        required: false
+        default: ""
+      studio_hub_installer_url:
+        description: "OPTIONAL direct URL of the Highrise Studio Hub Windows installer (from https://create.highrise.game/highrise-studio). Leave empty to skip the unverified Hub install attempt."
+        required: false
+        default: ""
+      interior_wins:
+        description: "Placements: let interior copies of duplicated station names win (games-inside integration)"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  finisher-prep:
+    name: Convert, install Unity, assemble project staging
+    runs-on: windows-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out the world repo
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # STEP 1 -- JSON manifests -> Placements Lua module (AUTOMATED)
+      # The converter lives in finisher-prep/ until it is promoted into
+      # the repo; this path assumes the promotion happened alongside this
+      # workflow. Python is preinstalled on windows-latest runners.
+      # ------------------------------------------------------------------
+      - name: Convert manifests to Placements.lua
+        shell: pwsh
+        run: |
+          $conv = "finisher-prep/convert_placements.py"
+          if (-not (Test-Path $conv)) { $conv = "tools/convert_placements.py" }
+          $extra = @()
+          if ("${{ inputs.interior_wins }}" -eq "true") { $extra += "--interior-wins" }
+          python $conv . -o staging/Placements.lua @extra
+          if ($LASTEXITCODE -ne 0) { throw "Placement conversion failed" }
+          Write-Host "Placements.lua generated:"
+          Get-Item staging/Placements.lua | Select-Object Length
+
+      # ------------------------------------------------------------------
+      # STEP 2 -- Unity Hub, silent install (AUTOMATED, VERIFIED flags)
+      # Unity's deployment docs: UnityHubSetup.exe /S installs silently
+      # (needs admin; GitHub windows runners run elevated).
+      # ------------------------------------------------------------------
+      - name: Download Unity Hub
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe" -OutFile "$env:RUNNER_TEMP\UnityHubSetup.exe"
+
+      - name: Install Unity Hub silently
+        shell: pwsh
+        run: |
+          $p = Start-Process "$env:RUNNER_TEMP\UnityHubSetup.exe" -ArgumentList "/S" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Unity Hub install exit code $($p.ExitCode)" }
+          if (-not (Test-Path "C:\Program Files\Unity Hub\Unity Hub.exe")) { throw "Unity Hub.exe not found after install" }
+
+      # ------------------------------------------------------------------
+      # STEP 3 -- Unity Editor 2022.3.30f1 via Hub headless (AUTOMATED,
+      # with one caveat): the Hub CLI pattern is verified; the changeset
+      # input may be required by the installed Hub version. A Unity
+      # LICENSE is a separate problem: the editor needs an activated
+      # personal license, which normally means a Unity account sign-in.
+      # That sign-in is NOT automated here (no credentials in CI) -- if
+      # the editor later refuses to open for license reasons, that is
+      # this known wall, not a bug in this workflow.
+      # ------------------------------------------------------------------
+      - name: Install Unity 2022.3.30f1 via Unity Hub (headless)
+        shell: pwsh
+        run: |
+          $hub = "C:\Program Files\Unity Hub\Unity Hub.exe"
+          $args = @("--", "--headless", "install", "--version", "2022.3.30f1")
+          if ("${{ inputs.unity_changeset }}" -ne "") { $args += @("--changeset", "${{ inputs.unity_changeset }}") }
+          & $hub @args
+          # Hub headless returns before the install finishes on some
+          # versions; wait for the editor folder to appear.
+          $deadline = (Get-Date).AddMinutes(60)
+          while (-not (Test-Path "C:\Program Files\Unity\Hub\Editor\2022.3.30f1\Editor\Unity.exe")) {
+            if ((Get-Date) -gt $deadline) { throw "Timed out waiting for Unity 2022.3.30f1 install" }
+            Start-Sleep -Seconds 30
+          }
+          Write-Host "Unity 2022.3.30f1 installed."
+
+      # ------------------------------------------------------------------
+      # STEP 4 -- Highrise Studio Hub (UNVERIFIED -- optional attempt)
+      # Highrise publishes NO silent-install documentation and NO direct
+      # installer URL (checked 2026-11-22). If a human supplies a URL via
+      # the workflow input, we download it and TRY the common NSIS-style
+      # /S flag; success is checked by looking for the app afterwards,
+      # and failure only warns. Skipped entirely with no input.
+      # ------------------------------------------------------------------
+      - name: Try Studio Hub install (UNVERIFIED, optional)
+        if: ${{ inputs.studio_hub_installer_url != '' }}
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          Write-Warning "Studio Hub headless install is UNVERIFIED. Attempting /S; verify the result by hand."
+          Invoke-WebRequest -Uri "${{ inputs.studio_hub_installer_url }}" -OutFile "$env:RUNNER_TEMP\StudioHubSetup.exe"
+          $p = Start-Process "$env:RUNNER_TEMP\StudioHubSetup.exe" -ArgumentList "/S" -Wait -PassThru
+          Write-Host "Studio Hub installer exit code: $($p.ExitCode) (meaning unknown -- installer type undocumented)"
+
+      # ------------------------------------------------------------------
+      # STEP 5 -- Assemble the project staging folder (AUTOMATED)
+      # Mirrors where files go inside a Highrise Studio project. The
+      # Assets/ layout is the standard Unity/Studio convention and is
+      # ASSUMED for script placement; the runbook lists the in-project
+      # checks (Library/Highrise/hr exists, module named exactly
+      # "Placements") that confirm it on first real use.
+      # ------------------------------------------------------------------
+      - name: Assemble project staging folder
+        shell: pwsh
+        run: |
+          $stage = "staging/project"
+          New-Item -ItemType Directory -Force "$stage/Assets/Scripts" | Out-Null
+          New-Item -ItemType Directory -Force "$stage/Assets/UI" | Out-Null
+          New-Item -ItemType Directory -Force "$stage/Manifests" | Out-Null
+          # World scripts (builder + stations + interior + atmosphere)
+          Copy-Item "05-builder/builder.lua" "$stage/Assets/Scripts/"
+          Copy-Item "03-scripts-card-games/*.lua" "$stage/Assets/Scripts/"
+          Get-ChildItem "04-scripts-party-games" -Recurse -Filter *.lua | Copy-Item -Destination "$stage/Assets/Scripts/"
+          Get-ChildItem "04-scripts-party-games" -Recurse -Filter *.uxml | Copy-Item -Destination "$stage/Assets/UI/"
+          Copy-Item "10-interior/*.lua" "$stage/Assets/Scripts/"
+          Copy-Item "11-atmosphere/*.lua" "$stage/Assets/Scripts/"
+          # The generated Placements module (from Step 1)
+          Copy-Item "staging/Placements.lua" "$stage/Assets/Scripts/Placements.lua"
+          # Manifests ride along for reference / re-conversion
+          Copy-Item "01-layout/layout_manifest.json" "$stage/Manifests/"
+          Copy-Item "02-house-facade/facade_manifest.json" "$stage/Manifests/"
+          Copy-Item "10-interior/interior_manifest.json" "$stage/Manifests/"
+          Copy-Item "11-atmosphere/atmosphere_manifest.json" "$stage/Manifests/"
+          Copy-Item "06-assets/assets_manifest.json" "$stage/Manifests/"
+          Get-ChildItem $stage -Recurse | Select-Object FullName
+
+      - name: Upload project staging as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: monster-house-project-staging
+          path: staging/
+          if-no-files-found: error
+
+      # ==================================================================
+      # MANUAL STEPS -- NOT AUTOMATED, DO NOT FAKE THEM
+      # Everything below needs an interactive, signed-in Studio session.
+      # On a CI runner there is no display session the owner controls and
+      # no Highrise sign-in; these steps print the exact hand-off so a
+      # human (or an agent on the owner's own machine, per STUDIO_SETUP)
+      # can finish. See FINISHER_RUNBOOK.md sections 4-6.
+      # ==================================================================
+      - name: "MANUAL STEP (stub): create/open project in Studio Hub"
+        shell: pwsh
+        run: |
+          Write-Host "::warning title=MANUAL STEP::Studio Hub has no documented CLI. A human must: install Studio Hub (https://create.highrise.game/highrise-studio), New Project -> Basic Template, then copy the staging artifact's Assets/ contents into the project and confirm Library/Highrise/hr exists."
+
+      - name: "MANUAL STEP (stub): owner signs in to Highrise inside Unity"
+        shell: pwsh
+        run: |
+          Write-Host "::warning title=MANUAL STEP::The OWNER must click Sign In inside Unity and sign in with their own Highrise account (LJAAYY). No agent and no CI job may handle this credential. Upload is impossible without it."
+
+      - name: "MANUAL STEP (stub): Play-test, then Upload"
+        shell: pwsh
+        run: |
+          Write-Host "::warning title=MANUAL STEP::In the signed-in Unity session: stock BuilderTemplates, add WorldBuilder + Placements module, press Play, read the [Builder] log until 0 errors, exit Play Mode, click Upload (top-right), name the world, Upload World. Then Creator Portal -> Builds -> Release -> Publish (owner agrees to terms personally)."
+
+      - name: Summary
+        if: always()
+        shell: pwsh
+        run: |
+          @(
+            "## Finisher (draft) -- automated part done"
+            ""
+            "- Placements.lua generated from the repo manifests and staged."
+            "- Unity Hub + Unity 2022.3.30f1 installed on the runner."
+            "- Project staging uploaded as the 'monster-house-project-staging' artifact."
+            ""
+            "**Still manual (by design, see runbook):** Studio Hub project creation, owner Highrise sign-in in Unity, Play, Upload, Creator Portal release. The upload step is UNPROVEN from any cloud runner."
+          ) -join "`n" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
