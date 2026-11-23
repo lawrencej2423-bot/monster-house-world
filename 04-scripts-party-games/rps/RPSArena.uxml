@@ -1,0 +1,6 @@
+<hr:UXML xmlns:hr="Highrise.UI">
+    <!-- World-space banner surface on the RPSSign post (DESIGN.md Zone
+         B3). Bind name must match RPSArenaUI.lua exactly:
+         rpsBannerLabel -->
+    <hr:UILabel name="rpsBannerLabel" text="ROCK PAPER SCISSORS" />
+</hr:UXML>
