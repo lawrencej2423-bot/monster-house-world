@@ -38,6 +38,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 
 # ---------------------------------------------------------------- constants
 
@@ -426,6 +427,199 @@ def strip_lua(src):
     return "".join(out)
 
 
+# ------------------------------------------------- Highrise typed Lua
+# Highrise Studio scripts use a typed Lua dialect (official docs'
+# examples included): `local x : UILabel = nil`, typed parameters
+# `function self:OnTriggerEnter(other : Collider)`. Stock luac cannot
+# parse those `: Type` annotations — they are NOT syntax errors.
+# strip_type_annotations() removes ONLY annotation spans (identified
+# on a token stream; strings/comments are opaque tokens, method-call
+# colons are never in annotation position) so the copy can be fed to
+# luac. This is a deliberate duplicate of the canonical implementation
+# in 08-qa/luac_check.py: sweep.py has always been self-contained
+# (the workflows and the Bug Department run it standalone), so it
+# carries its own copy instead of importing. Keep the two in sync.
+
+
+def _lua_tokens(src):
+    """(kind, start, end) tokens; whitespace skipped, strings and
+    comments single opaque tokens."""
+    toks = []
+    i, n = 0, len(src)
+    while i < n:
+        c = src[i]
+        if c in " \t\r\n\f\v":
+            i += 1
+            continue
+        if src.startswith("--", i):
+            m = re.match(r"--\[(=*)\[", src[i:])
+            if m:
+                close = "]" + m.group(1) + "]"
+                j = src.find(close, i + m.end())
+                j = n if j == -1 else j + len(close)
+            else:
+                j = src.find("\n", i)
+                j = n if j == -1 else j
+            toks.append(("comment", i, j))
+            i = j
+            continue
+        if c in "\"'":
+            j = i + 1
+            while j < n and src[j] != c:
+                j += 2 if src[j] == "\\" else 1
+            j = min(n, j + 1)
+            toks.append(("string", i, j))
+            i = j
+            continue
+        m = re.match(r"\[(=*)\[", src[i:])
+        if m:
+            close = "]" + m.group(1) + "]"
+            j = src.find(close, i + m.end())
+            j = n if j == -1 else j + len(close)
+            toks.append(("string", i, j))
+            i = j
+            continue
+        if c.isalpha() or c == "_":
+            j = i + 1
+            while j < n and (src[j].isalnum() or src[j] == "_"):
+                j += 1
+            toks.append(("ident", i, j))
+            i = j
+            continue
+        if c.isdigit():
+            j = i + 1
+            while j < n and (src[j].isalnum() or src[j] in "._"):
+                j += 1
+            toks.append(("number", i, j))
+            i = j
+            continue
+        three, two = src[i:i + 3], src[i:i + 2]
+        if three == "...":
+            toks.append(("punct", i, i + 3))
+            i += 3
+            continue
+        if two in ("..", "==", "~=", "<=", ">=", "::", "//", "<<", ">>"):
+            toks.append(("punct", i, i + 2))
+            i += 2
+            continue
+        toks.append(("punct", i, i + 1))
+        i += 1
+    return toks
+
+
+def _consume_balanced(toks, i):
+    pairs = {"<": ">", "{": "}", "(": ")"}
+    stack = [pairs[toks[i][3]]]
+    i += 1
+    while i < len(toks) and stack:
+        t = toks[i][3]
+        if t in pairs:
+            stack.append(pairs[t])
+        elif t == stack[-1]:
+            stack.pop()
+        i += 1
+    return i
+
+
+def _consume_type(toks, i):
+    """Consume one type expression; stop at anything that cannot be
+    part of a type (that conservatism is the safety property)."""
+    while i < len(toks):
+        t = toks[i]
+        if t[0] == "ident":
+            i += 1
+            while (i + 1 < len(toks) and toks[i][3] == "."
+                   and toks[i + 1][0] == "ident"):
+                i += 2
+            if i < len(toks) and toks[i][3] in ("<", "{"):
+                i = _consume_balanced(toks, i)
+            if i < len(toks) and toks[i][3] == "?":
+                i += 1
+        elif t[3] in ("{", "("):
+            i = _consume_balanced(toks, i)
+            if i < len(toks) and toks[i][3] == "?":
+                i += 1
+        else:
+            break
+        if i < len(toks) and toks[i][3] == "|":
+            i += 1
+            continue
+        break
+    return i
+
+
+def strip_type_annotations(src):
+    """Return src with Highrise/Luau `: Type` annotations removed —
+    only in local-declarator and function-signature positions. All
+    other bytes (method calls, strings, comments, layout) preserved."""
+    toks = [(k, s, e, src[s:e]) for k, s, e in _lua_tokens(src)
+            if k != "comment"]
+    spans = []
+
+    def delete_annotation(colon_idx):
+        end = _consume_type(toks, colon_idx + 1)
+        if end > colon_idx + 1:
+            # Absorb spaces/tabs just before the colon (same line
+            # only) so the stripped copy stays tidy.
+            start = toks[colon_idx][1]
+            while start > 0 and src[start - 1] in " \t":
+                start -= 1
+            spans.append((start, toks[end - 1][2]))
+        return end
+
+    i = 0
+    while i < len(toks):
+        t = toks[i]
+        if t[0] == "ident" and t[3] == "function":
+            j = i + 1
+            while j < len(toks) and toks[j][3] != "(":
+                j += 1
+            if j >= len(toks):
+                i += 1
+                continue
+            k = _consume_balanced(toks, j) - 1  # index of ')'
+            m = j + 1
+            while m < k:
+                if toks[m][3] == ":" and (
+                        toks[m - 1][0] == "ident"
+                        or toks[m - 1][3] == "..."):
+                    m = delete_annotation(m)
+                else:
+                    m += 1
+            i = k + 1
+            if i < len(toks) and toks[i][3] == ":":  # typed return
+                i = delete_annotation(i)
+            continue
+        if t[0] == "ident" and t[3] == "local":
+            nxt = toks[i + 1] if i + 1 < len(toks) else None
+            if nxt is not None and nxt[3] == "function":
+                i += 1
+                continue
+            m = i + 1
+            while m < len(toks) and toks[m][0] == "ident":
+                if m + 1 < len(toks) and toks[m + 1][3] == ":":
+                    m = delete_annotation(m + 1)
+                else:
+                    m += 1
+                if m < len(toks) and toks[m][3] == ",":
+                    m += 1
+                    continue
+                break
+            i = max(i + 1, m)
+            continue
+        i += 1
+
+    if not spans:
+        return src
+    spans.sort()
+    out, prev = [], 0
+    for s, e in spans:
+        out.append(src[prev:s])
+        prev = e
+    out.append(src[prev:])
+    return "".join(out)
+
+
 def find_lua_tool():
     """Resolve a Lua compiler/interpreter by its REAL executable names.
 
@@ -436,11 +630,11 @@ def find_lua_tool():
     via loadfile(). (None, False) = no Lua tool on this machine: the
     caller SKIPs the luac check with a note and runs the balance check
     instead — absence of luac is never a failure."""
-    for name in ("luac54", "luac", "luac5.4"):
+    for name in ("luac54.exe", "luac.exe", "luac54", "luac", "luac5.4"):
         p = shutil.which(name)
         if p:
             return p, True
-    for name in ("lua54", "lua"):
+    for name in ("lua54.exe", "lua.exe", "lua54", "lua"):
         p = shutil.which(name)
         if p:
             return p, False
@@ -456,20 +650,34 @@ def check_lua(root, fnd):
         with open(path, "r", encoding="utf-8", errors="replace") as fh:
             src = fh.read()
         if lua_tool:
-            if lua_is_compiler:
-                exe = [lua_tool, "-p", path]
-            else:
-                exe = [lua_tool, "-e", "assert(loadfile(arg[1]))", path]
+            # Feed luac a TYPE-STRIPPED temp copy: Highrise's typed
+            # annotations (`local x : UILabel`, `other : Collider`)
+            # are valid Studio Lua but stock luac rejects them.
+            # Stripping never changes line numbers, so errors still
+            # point at the right line of the real file.
+            tmp_path = None
             try:
+                fd, tmp_path = tempfile.mkstemp(suffix=".lua")
+                with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                    fh.write(strip_type_annotations(src))
+                if lua_is_compiler:
+                    exe = [lua_tool, "-p", tmp_path]
+                else:
+                    exe = [lua_tool, "-e",
+                           "assert(loadfile(arg[1]))", tmp_path]
                 r = subprocess.run(exe, capture_output=True, text=True,
                                    timeout=30)
                 if r.returncode != 0:
+                    err = (r.stderr.strip().splitlines() or ["?"])[0]
+                    err = err.replace(tmp_path, path)
                     fnd.fail(sec, path, None,
-                             "luac syntax error: %s"
-                             % (r.stderr.strip().splitlines() or ["?"])[0])
+                             "luac syntax error: %s" % err)
                 continue
             except (OSError, subprocess.SubprocessError):
                 pass  # fall through to balance check
+            finally:
+                if tmp_path and os.path.exists(tmp_path):
+                    os.unlink(tmp_path)
         code = strip_lua(src)
         for open_c, close_c in (("(", ")"), ("{", "}"), ("[", "]")):
             if code.count(open_c) != code.count(close_c):

@@ -199,3 +199,128 @@ else in both workflows is byte-identical, and the verdict steps still read
   First real test is the next Actions run after upload — same honesty
   caveat as Round 1, but the primary path is now a maintained action
   whose own CI proves the Windows build on every release.
+
+---
+
+# Round 3 — the "syntax errors" were the checker's bug, not the scripts'
+
+Trigger: GitHub Actions run #29. Round 2's Lua install WORKED
+(leafo/gh-actions-lua). `luac -p` then flagged exactly 5 files, every
+error a `:` at the same kind of line:
+
+- `RadioBoothUI.lua:15`, `TriviaScreenUI.lua:16`, `RPSArenaUI.lua:15` —
+  `local <name> : UILabel = nil`
+- `RPSPodiumTrigger.lua:11`, `StationSpotTrigger.lua:15` —
+  `function self:OnTriggerEnter(other : Collider)`
+
+These are Highrise Studio's TYPED Lua annotations. The official
+Highrise docs' own examples (e.g. CoinCollector) use exactly this
+syntax; Studio compiles it, stock luac cannot parse it. The 12
+untyped files passed luac cleanly. Verdict: the CHECKER adapts, the
+scripts are never edited. No game script was touched in this round.
+
+Second bug in the same step: the workflow's `find . -name "*.lua"`
+also picked up the `.lua/` install directory that gh-actions-lua
+builds in the workspace ("cannot open ./.lua: Permission denied",
+"BAD ./.lua"). The new checker skips dot-directories entirely.
+
+## Annotation shapes actually present (all 17 repo Lua files read)
+
+- `--!Type(...)` header (line 1) — all 17 files. A comment; luac
+  ignores it; left alone.
+- `--!Bind` on its own line — the 3 UI files. Also a comment.
+- Typed local `local x : UILabel = nil` — 3 instances
+  (RadioBoothUI:15, RPSArenaUI:15, TriviaScreenUI:16).
+- Typed parameter `(other : Collider)` — 4 instances
+  (RPSPodiumTrigger + StationSpotTrigger, Enter and Exit each).
+- NOT present anywhere: typed returns, typed table fields, typed
+  multi-parameter lists, space-less `x: T`. (The stripper still
+  handles typed returns and multi-declarator/multi-param lists —
+  covered by synthetic tests — because the docs' dialect allows
+  them and future scripts may use them.)
+
+## The fix
+
+**New: `08-qa/luac_check.py`** (stdlib only), now the single Lua
+syntax checker used by both workflows:
+
+- Walks a root for `*.lua`, pruning dot-directories (`.lua`, `.git`,
+  `.github`, …) and `__pycache__`.
+- Resolves luac by real executable names (`luac54.exe`, `luac.exe`,
+  `luac54`, `luac`, `luac5.4`) on PATH, plus `<root>/.lua/bin` as a
+  courtesy. No luac → prints SKIPPED, exit 0 (a missing compiler is
+  an install failure, already caught by the workflows' separate
+  "Lua install" verdict row — not a code failure).
+- For each file it writes a type-stripped temp copy and runs
+  `luac -p` on the copy. Stripping never changes line numbers, and
+  luac error paths are rewritten back to the real file name.
+
+**The stripper** (the heart of this round) works on a token stream —
+strings and comments are single opaque tokens — and deletes a
+`: Type` span ONLY where a colon can be a type annotation in this
+dialect:
+
+- a local declarator: `local name : Type [= ...]`, including
+  comma-separated declarator lists;
+- a function parameter list: `(name : Type, ...)`, including
+  anonymous and `local function`s;
+- a typed return `: Type` immediately after a signature's `)`.
+
+Type consumption is a bounded chain (dotted names, `<...>` generics,
+`{...}` table types, `?`, `|` unions) that stops at the first token
+that cannot be part of a type. Method calls `obj:Method()`, method
+definitions `function self:Name()` (the name colon sits before the
+parameter list and is never scanned), labels `::x::` (tokenized as
+`::`), string contents and comments are structurally untouchable.
+The deleted span also absorbs spaces/tabs just before the colon so
+stripped copies stay tidy.
+
+**`08-qa/sweep.py`** carries a deliberate duplicate of the stripper
+(`strip_type_annotations`) — sweep.py has always been self-contained
+and is run standalone by the workflows and the Bug Department, so it
+does not import. Its luac path now feeds luac a stripped temp copy
+exactly like luac_check.py, and `find_lua_tool()` also knows the
+`.exe` names. The two stripper copies are verified byte-identical in
+output on all 17 files (test below); keep them in sync.
+
+**Workflows** (`build.yml`, `bug-department.yml`): the bash
+find+luac loop is replaced by one line, `python 08-qa/luac_check.py`,
+under the same step id (`lua`), so the verdict rows are unchanged.
+`bug-sweep.yml` inherits via `workflow_call` as before.
+
+## Known limits of the stripper
+
+- Typed `for` variables (`for i : number in ...`) are not stripped —
+  none exist in the repo; if one appears, luac will flag it and the
+  stripper needs a new rule (the scripts still won't be edited).
+- Luau function types with `->` returns inside an annotation stop
+  consumption at `->`; not present in the repo or the docs' examples
+  used here.
+- The stripper proves the stripped copy parses; it does not
+  type-check (that is Studio's job, and Studio accepts the dialect).
+
+## Validation (this VM, 2026-11-22)
+
+- Both workflows parse as YAML; no `find . -name` loop remains in
+  either; both call `python 08-qa/luac_check.py`.
+- `luac_check.py` + `sweep.py` compile (`py_compile`).
+- No luac exists on this VM, so `luac_check.py --root repo` prints
+  SKIPPED and exits 0, as designed (17 files counted).
+- Real parse proof via lupa 2.8 (bundled Lua 5.5 `load()`): all 17
+  STRIPPED files parse. The 5 flagged originals FAIL `load()`
+  unstripped and parse stripped — confirming the annotations were
+  the only blocker. Diffs of stripped vs original show only the 7
+  annotation spans removed (`: UILabel` ×3, `: Collider` ×4),
+  nothing else.
+- 14 synthetic trap cases pass: method-call colons, method
+  definitions, labels, colons inside strings/comments untouched;
+  typed locals/params/returns, multi-declarators, generics, unions,
+  dotted types all stripped correctly.
+- Dot-directory walk test: `.lua/`, `.git/`, `__pycache__` contents
+  are excluded; real files are found.
+- Updated `sweep.py` against `repo/`: 5 pass, 2 pending (the known
+  honest TriviaScreen PENDINGs), **0 FAIL**, exit 0.
+- First real luac test is still the next Actions run after these
+  files are uploaded — same honesty caveat as Rounds 1–2 — but the
+  stripped files are now proven to parse under a real Lua runtime,
+  so run #29's five "syntax errors" cannot recur.
