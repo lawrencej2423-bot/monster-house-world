@@ -202,7 +202,7 @@ public static class WorldBuilderEditor
     /// inactive ones, by recursive traversal from the roots.</summary>
     private static GameObject FindInSceneDeep(Scene scene, string name)
     {
-        List<GameObject> roots = scene.GetRootGameObjects();
+        List<GameObject> roots = new List<GameObject>(scene.GetRootGameObjects());
         for (int i = 0; i < roots.Count; i++)
         {
             GameObject found = FindDeep(roots[i], name);
@@ -235,7 +235,7 @@ public static class WorldBuilderEditor
     /// <summary>Find a GameObject that sits directly at the scene root.</summary>
     private static GameObject FindSceneRoot(Scene scene, string name)
     {
-        List<GameObject> roots = scene.GetRootGameObjects();
+        List<GameObject> roots = new List<GameObject>(scene.GetRootGameObjects());
         for (int i = 0; i < roots.Count; i++)
         {
             if (roots[i].name == name)
