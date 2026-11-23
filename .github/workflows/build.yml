@@ -68,55 +68,86 @@ jobs:
           sys.exit(1 if bad else 0)
 
       # ---- Check 2: Lua syntax -----------------------------------------
-      # Install a real Lua interpreter on the Windows runner (official
-      # LuaBinaries 5.4 build), put luac on PATH, then syntax-check
-      # every .lua file with luac -p (parse only, nothing executes).
+      # Install Lua 5.4 on the Windows runner WITHOUT SourceForge.
       #
-      # FIX (pipeline-fix): the old URL pointed at a SourceForge folder
-      # that does not exist ("5.4.2/Windows64_bin/..." — the real folder
-      # is "5.4.2/Tools Executables/"), so the download 404'd and this
-      # step failed on every run. The step now tries both official
-      # SourceForge endpoints with retries, verifies the download is a
-      # real zip (SourceForge error pages are HTML), and smoke-tests
-      # luac before declaring success.
+      # FIX round 2 (pipeline-fix): Round 1's corrected SourceForge URL
+      # still failed on GitHub's runners - run #27's log showed a
+      # ~137 KB non-zip (HTML interstitial) response on every attempt:
+      # SourceForge bot-walls datacenter IPs. SourceForge is gone.
+      #
+      # Primary: leafo/gh-actions-lua builds Lua from the official
+      # source tarball on lua.org (verified reachable, no bot wall)
+      # with the runner's MSVC toolchain; it puts lua.exe + luac.exe
+      # in .lua/bin and on PATH. The msvc-dev-cmd step before it is
+      # that action's documented Windows prerequisite.
+      # Fallback (only if the action fails): download the same lua.org
+      # tarball directly and compile lua.exe/luac.exe with cl.exe.
+      # The last step (id: lua_install - the verdict reads its outcome)
+      # verifies the install: find luac*.exe, smoke-test `luac -v`.
+      - name: Set up the MSVC environment (to build Lua on Windows)
+        uses: step-security/msvc-dev-cmd@v1
+        continue-on-error: true
+
+      - name: Install Lua 5.4.2 (gh-actions-lua)
+        id: lua_action
+        continue-on-error: true
+        uses: leafo/gh-actions-lua@v13
+        with:
+          luaVersion: "5.4.2"
+
+      - name: Install Lua 5.4.2 (fallback - build the lua.org tarball)
+        id: lua_fallback
+        if: steps.lua_action.outcome == 'failure'
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tgz = Join-Path $env:RUNNER_TEMP "lua-5.4.2.tar.gz"
+          $dest = Join-Path $env:RUNNER_TEMP "lua-fallback"
+          $bin = Join-Path $dest "bin"
+          Invoke-WebRequest -Uri "https://www.lua.org/ftp/lua-5.4.2.tar.gz" -OutFile $tgz
+          # A real gzip starts with bytes 1F 8B; an error page is HTML.
+          $bytes = [System.IO.File]::ReadAllBytes($tgz)
+          if ($bytes.Length -lt 100000 -or $bytes[0] -ne 0x1F -or $bytes[1] -ne 0x8B) {
+            throw "lua.org download was not a gzip tarball ($($bytes.Length) bytes)."
+          }
+          New-Item -ItemType Directory -Force $dest, $bin | Out-Null
+          tar -xzf $tgz -C $dest
+          $src = Join-Path $dest "lua-5.4.2\src"
+          Push-Location $src
+          $core = (Get-ChildItem "*.c" | Where-Object { $_.Name -notin @("lua.c", "luac.c") }).Name
+          cl /nologo /O2 /W3 /c $core
+          $objs = (Get-ChildItem "*.obj").Name
+          lib /nologo /OUT:lua54.lib $objs
+          cl /nologo /O2 /W3 lua.c lua54.lib /Fe:lua.exe
+          cl /nologo /O2 /W3 luac.c lua54.lib /Fe:luac.exe
+          Pop-Location
+          Copy-Item (Join-Path $src "lua.exe"), (Join-Path $src "luac.exe") $bin
+          $bin | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          & (Join-Path $bin "luac.exe") -v
+
       - name: Install Lua on the runner
         id: lua_install
         continue-on-error: true
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $urls = @(
-            "https://sourceforge.net/projects/luabinaries/files/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip/download",
-            "https://downloads.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip"
-          )
-          $zip = Join-Path $env:RUNNER_TEMP "lua.zip"
-          $dest = Join-Path $env:RUNNER_TEMP "lua"
-          $ok = $false
-          foreach ($url in $urls) {
-            for ($try = 1; $try -le 3 -and -not $ok; $try++) {
-              try {
-                Write-Host "Downloading Lua from $url (attempt $try)"
-                Invoke-WebRequest -Uri $url -OutFile $zip -MaximumRedirection 10
-                # A real zip starts with 'PK'; an error page is HTML.
-                $bytes = [System.IO.File]::ReadAllBytes($zip)
-                if ($bytes.Length -gt 10000 -and $bytes[0] -eq 0x50 -and $bytes[1] -eq 0x4B) {
-                  $ok = $true
-                } else {
-                  Write-Warning "Download was not a zip file ($($bytes.Length) bytes) - retrying"
-                }
-              } catch {
-                Write-Warning "Download failed: $($_.Exception.Message)"
-              }
-            }
-            if ($ok) { break }
+          $candidates = @()
+          foreach ($name in @("luac", "luac54")) {
+            $cmd = Get-Command $name -ErrorAction SilentlyContinue
+            if ($cmd) { $candidates += $cmd.Source }
           }
-          if (-not $ok) { throw "Could not download the official Lua binaries zip from SourceForge." }
-          Expand-Archive -Path $zip -DestinationPath $dest -Force
-          $luac = Get-ChildItem -Path $dest -Recurse -Filter "luac*.exe" | Select-Object -First 1
-          if (-not $luac) { throw "No luac executable found inside the downloaded zip." }
-          $luac.Directory.FullName | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
-          & $luac.FullName -v
-          Get-ChildItem $dest
+          $searchRoots = @(
+            (Join-Path $env:GITHUB_WORKSPACE ".lua"),
+            (Join-Path $env:RUNNER_TEMP "lua-fallback")
+          )
+          $candidates += Get-ChildItem -Path $searchRoots -Recurse -Filter "luac*.exe" -ErrorAction SilentlyContinue |
+            ForEach-Object { $_.FullName }
+          $luac = $candidates | Select-Object -First 1
+          if (-not $luac) { throw "No luac executable found - both Lua installs failed." }
+          Write-Host "Found luac at $luac"
+          (Split-Path $luac) | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          & $luac -v
 
       - name: Syntax-check all Lua files (luac -p)
         id: lua
