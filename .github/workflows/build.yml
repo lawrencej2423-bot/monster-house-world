@@ -1,0 +1,190 @@
+# Build Checks — Monster House Highrise world
+#
+# Runs on a free Windows runner (windows-latest) and checks everything in
+# this repo that can be checked as text:
+#   1. Every JSON manifest parses (01-layout, 02-house-facade, 06 assets, ...)
+#   2. Every Lua file passes a real syntax check (luac -p)
+#   3. The QA test suite in 08-qa runs, if that section is present
+#
+# Each check runs even if an earlier one fails, and the last step prints a
+# plain pass/fail summary and fails the job if anything failed.
+#
+# This workflow is also called by bug-sweep.yml (workflow_call), so the
+# automatic bug sweeps run exactly the same checks as a normal build.
+#
+# HONEST LIMIT: this validates text files only. It does NOT open Unity /
+# Highrise Studio, press Play, or upload the world — see 07-pipeline/PIPELINE.md.
+
+name: Build Checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call: # lets bug-sweep.yml reuse this exact pipeline
+
+permissions:
+  contents: read
+
+jobs:
+  build-checks:
+    name: Validate manifests, Lua, and QA tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python (for the JSON check and QA tests)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # ---- Check 1: JSON manifests -------------------------------------
+      # shell: python runs this block as a Python script on any runner OS.
+      - name: Validate all JSON manifests
+        id: json
+        continue-on-error: true
+        shell: python
+        run: |
+          import json, pathlib, sys
+          root = pathlib.Path(".")
+          files = sorted(
+              p for p in root.rglob("*.json")
+              if ".git" not in p.parts and ".github" not in p.parts
+          )
+          if not files:
+              print("No JSON files found yet - check skipped (nothing to validate).")
+              sys.exit(0)
+          bad = []
+          for f in files:
+              try:
+                  json.loads(f.read_text(encoding="utf-8"))
+                  print(f"OK    {f}")
+              except Exception as e:
+                  bad.append(f)
+                  print(f"BAD   {f}: {e}")
+          print(f"\n{len(files) - len(bad)}/{len(files)} JSON files valid.")
+          sys.exit(1 if bad else 0)
+
+      # ---- Check 2: Lua syntax -----------------------------------------
+      # Install a real Lua interpreter on the Windows runner (official
+      # LuaBinaries 5.4 build), put luac on PATH, then syntax-check
+      # every .lua file with luac -p (parse only, nothing executes).
+      - name: Install Lua on the runner
+        id: lua_install
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $url = "https://downloads.sourceforge.net/project/luabinaries/5.4.2/Windows64_bin/lua-5.4.2_Win64_bin.zip"
+          $zip = Join-Path $env:RUNNER_TEMP "lua.zip"
+          $dest = Join-Path $env:RUNNER_TEMP "lua"
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath $dest -Force
+          $dest | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          Get-ChildItem $dest
+
+      - name: Syntax-check all Lua files (luac -p)
+        id: lua
+        continue-on-error: true
+        shell: bash
+        run: |
+          LUAC=""
+          for c in luac54 luac lua54 lua; do
+            if command -v "$c" >/dev/null 2>&1; then LUAC="$c"; break; fi
+          done
+          if [ -z "$LUAC" ]; then
+            echo "No Lua interpreter found on PATH - the install step must have failed."
+            exit 1
+          fi
+          # luac parses; plain lua falls back to a loadfile() parse check.
+          check_one() {
+            if [[ "$LUAC" == luac* ]]; then "$LUAC" -p "$1";
+            else "$LUAC" -e "assert(loadfile(arg[1]))" "$1"; fi
+          }
+          mapfile -t files < <(find . -name "*.lua" -not -path "./.git/*" | sort)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No Lua files found yet - check skipped (nothing to validate)."
+            exit 0
+          fi
+          fail=0
+          for f in "${files[@]}"; do
+            if check_one "$f"; then echo "OK    $f"; else echo "BAD   $f"; fail=1; fi
+          done
+          echo ""
+          echo "${#files[@]} Lua file(s) checked with $LUAC."
+          exit $fail
+
+      # ---- Check 3: QA tests from section 08-qa -------------------------
+      # Contract (see 07-pipeline/PIPELINE.md): if 08-qa exists, the pipeline
+      # runs the first entry point it finds:
+      #   08-qa/run_tests.py   -> python run_tests.py
+      #   08-qa/test_*.py      -> pytest
+      #   08-qa/run_tests.sh   -> bash run_tests.sh
+      #   08-qa/sweep.py       -> python sweep.py
+      # If 08-qa is absent or has no entry point yet, the check is skipped
+      # (reported as SKIPPED, not failed).
+      - name: Run QA tests (08-qa, if present)
+        id: qa
+        continue-on-error: true
+        shell: bash
+        run: |
+          if [ ! -d "08-qa" ]; then
+            echo "08-qa section not present yet - QA check skipped."
+            echo "QA_SKIPPED=1" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          cd 08-qa
+          if [ -f run_tests.py ]; then
+            echo "Running 08-qa/run_tests.py"
+            python run_tests.py
+          elif compgen -G "test_*.py" > /dev/null || compgen -G "*_test.py" > /dev/null; then
+            echo "Running pytest on 08-qa"
+            python -m pip install --quiet pytest
+            python -m pytest . -q
+          elif [ -f run_tests.sh ]; then
+            echo "Running 08-qa/run_tests.sh"
+            bash run_tests.sh
+          elif [ -f sweep.py ]; then
+            echo "Running 08-qa/sweep.py"
+            python sweep.py
+          else
+            echo "08-qa exists but has no test entry point yet - QA check skipped."
+            echo "QA_SKIPPED=1" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+      # ---- Verdict: summary + real pass/fail ----------------------------
+      - name: Summary and verdict
+        if: always()
+        shell: bash
+        run: |
+          verdict() { [ "$1" = "success" ] && echo "✅ PASS" || echo "❌ FAIL"; }
+          {
+            echo "## Build Checks — summary"
+            echo ""
+            echo "| Check | Result |"
+            echo "|---|---|"
+            echo "| JSON manifests valid | $(verdict '${{ steps.json.outcome }}') |"
+            echo "| Lua install | $(verdict '${{ steps.lua_install.outcome }}') |"
+            echo "| Lua syntax (luac -p) | $(verdict '${{ steps.lua.outcome }}') |"
+            if [ "${QA_SKIPPED:-0}" = "1" ]; then
+              echo "| QA tests (08-qa) | ⏭️ SKIPPED (section not ready yet) |"
+            else
+              echo "| QA tests (08-qa) | $(verdict '${{ steps.qa.outcome }}') |"
+            fi
+            echo ""
+            echo "Reminder: these checks validate the world's text files only."
+            echo "The final Highrise Studio Play/Upload step is not automated yet — see 07-pipeline/PIPELINE.md."
+          } >> "$GITHUB_STEP_SUMMARY"
+          cat "$GITHUB_STEP_SUMMARY"
+          if [ '${{ steps.json.outcome }}' != "success" ] \
+             || [ '${{ steps.lua_install.outcome }}' != "success" ] \
+             || [ '${{ steps.lua.outcome }}' != "success" ] \
+             || [ '${{ steps.qa.outcome }}' != "success" ]; then
+            echo ""
+            echo "BUILD CHECKS FAILED — see the failed step(s) above for details."
+            exit 1
+          fi
+          echo ""
+          echo "ALL BUILD CHECKS PASSED."
