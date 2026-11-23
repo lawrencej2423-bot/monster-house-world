@@ -8,8 +8,9 @@ Stdlib-only automated checks for the world repo. Run from anywhere:
 
 Exit code: 0 = no FAILs (PENDING sections are OK), 1 = at least one FAIL.
 
-Checks (against DESIGN.md §1 / §3 / §5 in ../.. i.e.
-~/workspace/highrise-bot/world-building/DESIGN.md):
+Checks (against DESIGN.md §1 / §3 / §5 — auto-detected at
+<root>/DESIGN.md, <root>/design-docs/DESIGN.md in the GitHub repo,
+or one level above the repo root in the local working tree):
 
   1. Every .json file in the repo parses as valid JSON.
   2. Layout objects (from any manifest JSON):
@@ -425,18 +426,40 @@ def strip_lua(src):
     return "".join(out)
 
 
+def find_lua_tool():
+    """Resolve a Lua compiler/interpreter by its REAL executable names.
+
+    The official LuaBinaries Windows zip ships lua54.exe / luac54.exe —
+    there is no 'luac5.4' executable, and shutil.which("luac") does not
+    match luac54.exe. Returns (path, is_compiler) or (None, False).
+    is_compiler=False means an interpreter, which can still parse-check
+    via loadfile(). (None, False) = no Lua tool on this machine: the
+    caller SKIPs the luac check with a note and runs the balance check
+    instead — absence of luac is never a failure."""
+    for name in ("luac54", "luac", "luac5.4"):
+        p = shutil.which(name)
+        if p:
+            return p, True
+    for name in ("lua54", "lua"):
+        p = shutil.which(name)
+        if p:
+            return p, False
+    return None, False
+
+
 def check_lua(root, fnd):
     count = 0
-    luac = shutil.which("luac") or shutil.which("luac5.4") \
-        or shutil.which("lua")
+    lua_tool, lua_is_compiler = find_lua_tool()
     for path in iter_files(root, (".lua",)):
         count += 1
         sec = section_of(root, path)
         with open(path, "r", encoding="utf-8", errors="replace") as fh:
             src = fh.read()
-        if luac:
-            exe = ["luac", "-p", path] if "luac" in luac \
-                else ["luac5.4", "-p", path]
+        if lua_tool:
+            if lua_is_compiler:
+                exe = [lua_tool, "-p", path]
+            else:
+                exe = [lua_tool, "-e", "assert(loadfile(arg[1]))", path]
             try:
                 r = subprocess.run(exe, capture_output=True, text=True,
                                    timeout=30)
@@ -485,8 +508,9 @@ def check_lua(root, fnd):
                      % (repeats, untils))
     if count:
         fnd.ok("(all)", "%d Lua file(s) sanity-checked%s"
-               % (count, " with luac" if luac else
-                  " (balance check only — no luac on this machine)"))
+               % (count, " with luac (%s)" % lua_tool if lua_tool else
+                  " (luac check SKIPPED — no Lua tool on this machine; "
+                  "balance check only, which is not a failure)"))
     return count
 
 
@@ -531,11 +555,11 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     ap.add_argument("--root", default=os.path.dirname(here),
                     help="repo root (default: parent of 08-qa/)")
-    ap.add_argument("--design",
-                    default=os.path.join(
-                        os.path.dirname(os.path.dirname(here)),
-                        "DESIGN.md"),
-                    help="path to DESIGN.md")
+    ap.add_argument("--design", default=None,
+                    help="path to DESIGN.md (default: auto-detect — "
+                         "<root>/DESIGN.md, then <root>/design-docs/"
+                         "DESIGN.md, then the legacy location one level "
+                         "above the repo)")
     ap.add_argument("--json", action="store_true",
                     help="also print machine-readable JSON summary")
     args = ap.parse_args()
@@ -553,10 +577,32 @@ def main():
             fnd.pend(sec, "Section folder is empty — crew still "
                      "building (PENDING, not a failure)")
 
-    expected_names, design_anchors = design_names(args.design)
+    # DESIGN.md location: in the GitHub repo it lives at
+    # design-docs/DESIGN.md; in the local working tree it historically
+    # sat one level ABOVE the repo root. The old default only knew the
+    # legacy location, so on GitHub the sweep found no DESIGN.md at
+    # all: naming checks silently degraded and every DESIGN-§5 anchor
+    # that is referenced but not placed as a manifest object (e.g.
+    # TriviaScreen) flipped from PENDING to FAIL. Auto-detect instead.
+    design_path = None
+    candidates = []
+    if args.design:
+        candidates.append(args.design)
+    candidates += [
+        os.path.join(root, "DESIGN.md"),
+        os.path.join(root, "design-docs", "DESIGN.md"),
+        os.path.join(os.path.dirname(root), "DESIGN.md"),
+    ]
+    for cand in candidates:
+        if os.path.isfile(cand):
+            design_path = cand
+            break
+    expected_names, design_anchors = design_names(design_path) \
+        if design_path else (set(), set())
     if not expected_names:
-        fnd.pend("08-qa", "DESIGN.md not found at %s — naming/anchor "
-                 "checks ran in degraded mode" % args.design)
+        fnd.pend("08-qa", "DESIGN.md not found (looked in: %s) — "
+                 "naming/anchor checks ran in degraded mode"
+                 % ", ".join(candidates))
 
     parsed = check_json(root, fnd)
     placed = check_layout(root, fnd, parsed, expected_names)
