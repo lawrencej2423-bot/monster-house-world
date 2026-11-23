@@ -1,0 +1,9 @@
+🏚️ MONSTER HOUSE WORLD — UPDATE V1
+Your world is built as files and checked:
+✅ Yard layout done (97 pieces, sweep clean) — walkway, KEEP AWAY + BEWARE signs, gnarled trees
+✅ House matched to the real film house (reference locked, ~95% replica target)
+✅ Game scripts done: poker, blackjack, trivia, radio, RPS
+✅ Builder script tested — places everything, safe to re-run
+✅ Bug Department on GitHub: checks every 6 hrs + every push, fixes safe bugs itself
+🔨 Still coming in V1: facade + interior (games inside, teleport through the front door), storm sky with lightning + moonlight, push to GitHub, first build run, then the Studio upload step.
+Full log: GitHub repo monster-house-world, UPDATE_LOG.md
