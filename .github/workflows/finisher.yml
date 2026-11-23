@@ -84,8 +84,8 @@ jobs:
       - name: Convert manifests to Placements.lua
         shell: pwsh
         run: |
-          $conv = "finisher-prep/convert_placements.py"
-          if (-not (Test-Path $conv)) { $conv = "tools/convert_placements.py" }
+          $conv = "12-finisher/convert_placements.py"
+          if (-not (Test-Path $conv)) { $conv = "finisher-prep/convert_placements.py" }
           $extra = @()
           if ("${{ inputs.interior_wins }}" -eq "true") { $extra += "--interior-wins" }
           python $conv . -o staging/Placements.lua @extra
