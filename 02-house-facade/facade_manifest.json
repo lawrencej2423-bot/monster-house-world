@@ -1,0 +1,2265 @@
+{
+ "builderChecks": [
+  "Zone: every part and subPart, with rotation applied, stays within Z 23-30.6 and X 0-40. No exceptions in this replica.",
+  "Eyes: EXACTLY two lit windows (EyeWindow_Left_Flat, EyeWindow_Right_4Pane). No other front window exists or glows \u2014 there are NO ground-floor front windows in this replica (the porch/mouth occupies the whole ground band).",
+  "Asymmetry: left eye flat in wall + cross muntins + arch trim; right eye 2x2 four-pane in the projecting dormer box. If the two eyes match, it is wrong.",
+  "Eye level: both eye centres at Y 7.6. The dormer projects forward (front face Z 25.3 vs wall face Z 27), NOT up.",
+  "Brow: EaveBeam_CentreDip must sit approx 0.45 lower than the end segments, and the skirt must have NO shards between X 18.6 and 21.4 (broken centre).",
+  "Teeth colour: every tooth uses a grey-blue siding-family colour. Any white/cream tooth fails the build.",
+  "Teeth lengths: upper teeth lengths are 1.35/0.75/1.2/0.5/1.4/0.85/1.15/0.6/1.0 \u2014 uneven on purpose. Do not tidy them.",
+  "Default state: monster layer ON, rest layer OFF. DoorGlow_Plane and DoorLight_Pool must be hidden at spawn.",
+  "Chimney: small, at X 18.6 (just LEFT of centre), with SmokeWisp. If it reads as a major feature, shrink it.",
+  "No arms, no legs, no extra front windows, no side wings, no garage, no casino colours on the house."
+ ],
+ "coordinateSystem": {
+  "axes": "X = east, Z = north, Y = up. Floor top Y = 0.",
+  "facing": "House front faces SOUTH toward the playable yard and spawn (20, 0, 3). Main wall front plane at Z = 27.",
+  "grid": "World footprint X 0-40, Z 0-30. Facade zone Z 23-30. Positions are part CENTERS; rotationDeg is Euler XYZ degrees applied to the part.",
+  "units": "1 unit = 1 floor tile",
+  "zoneRule": "Every part (including subParts, rotation accounted) must stay at Z >= 23 and Z <= 30.6. This replica needs NO yard exceptions: even the porch steps land at Z = 23.3."
+ },
+ "defaultState": "MONSTER MODE: house planted, mouth OPEN (monster layer visible), door light OFF (rest layer hidden). No tree-limb arms, no legs. Rest layer parts exist for a possible at-rest toggle but ship hidden.",
+ "faceFeatures": {
+  "brow": [
+   "EaveBeam_West",
+   "EaveBeam_CentreDip",
+   "EaveBeam_East",
+   "ShingleSkirtBand",
+   "SkirtShard_1",
+   "SkirtShard_2",
+   "SkirtShard_3",
+   "SkirtShard_4",
+   "SkirtShard_5",
+   "SkirtShard_6"
+  ],
+  "doorRest": [
+   "FrontDoor_Open",
+   "DoorGlow_Plane",
+   "DoorLightSpill",
+   "DoorLight_Pool"
+  ],
+  "eyes": [
+   "EyeWindow_Left_Flat",
+   "EyeWindow_Right_4Pane",
+   "EyeDormerBox_Right",
+   "DormerRoof_Right",
+   "EyeHalo_Left",
+   "EyeHalo_Right"
+  ],
+  "mouth": [
+   "MouthInterior_Black",
+   "PorchFloor_LowerJaw",
+   "UpperTooth_1",
+   "UpperTooth_2",
+   "UpperTooth_3",
+   "UpperTooth_4",
+   "UpperTooth_5",
+   "UpperTooth_6",
+   "UpperTooth_7",
+   "UpperTooth_8",
+   "UpperTooth_9",
+   "LowerTooth_1",
+   "LowerTooth_2",
+   "LowerTooth_3",
+   "LowerTooth_4",
+   "LowerTooth_5",
+   "LowerTooth_6",
+   "LowerTooth_7"
+  ],
+  "nose": [
+   "NosePoint_Hub",
+   "SidingWrinkle_L1",
+   "SidingWrinkle_L2",
+   "SidingWrinkle_R1",
+   "SidingWrinkle_R2",
+   "SidingWrinkle_Centre"
+  ]
+ },
+ "palette": {
+  "ambient": "Deep blue-teal night #0B1D2A-#14313F (scene lighting, set by the lighting/pipeline section; recorded here so the facade materials match).",
+  "doorLight": "#FFD76A core (rest layer only)",
+  "eyeGlow": "#FF9A2A-#FFB84D (manifest uses #FFA63D)",
+  "forbidden": "No casino palette on the facade \u2014 no neon, no gold trim (REFERENCE palette check). Casino dressing lives in the yard only.",
+  "shingles": "#2E3B44 range (darkest blue-grey)",
+  "siding": "#54646E range (mid blue-grey), weathering darker at board ends",
+  "teeth": "Grey-blue splintered timber from the siding family (#54646E / #4A5A63 / #5E707A). NEVER white, never cream, never even.",
+  "trees": "Near-black blue-grey #1E2A30 with pale rim light"
+ },
+ "parts": [
+  {
+   "buildFrom": "Unity box",
+   "category": "structure",
+   "color": "#3E4A50",
+   "layer": "both",
+   "material": "Rough stone",
+   "name": "HouseFoundation",
+   "notes": "Planted plinth, a touch wider than the body. The house stays PLANTED (REFERENCE ruling: no legs, no arms in the default backdrop).",
+   "position": {
+    "x": 20,
+    "y": 0.34,
+    "z": 28.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0.4
+   },
+   "size": {
+    "x": 21.5,
+    "y": 0.5,
+    "z": 3.2
+   }
+  },
+  {
+   "buildFrom": "Unity box + plank material",
+   "category": "structure",
+   "color": "#54646E",
+   "layer": "both",
+   "material": "Horizontal plank siding, blue-grey",
+   "name": "LowerWall",
+   "notes": "Ground storey (porch band, approx bottom 25% of H). Front face plane Z = 27. Siding boards warped with gaps \u2014 vary plank shading/bow in the material, no two boards aligned (REFERENCE section 2).",
+   "position": {
+    "x": 20,
+    "y": 2.5,
+    "z": 28.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 20,
+    "y": 5,
+    "z": 2.8
+   }
+  },
+  {
+   "buildFrom": "Unity box + plank material",
+   "category": "structure",
+   "color": "#4A5A63",
+   "layer": "both",
+   "material": "Horizontal plank siding, blue-grey",
+   "name": "UpperWall",
+   "notes": "Upper wall band (approx 20% of H) carrying the two eyes. Leans/sags subtly with the whole house.",
+   "position": {
+    "x": 19.85,
+    "y": 7.25,
+    "z": 28.45
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -1
+   },
+   "size": {
+    "x": 19.4,
+    "y": 4.5,
+    "z": 2.7
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "siding",
+   "color": "#5E707A",
+   "faceFeature": "nose_wrinkle",
+   "layer": "both",
+   "material": "Twisted siding plank",
+   "name": "SidingWrinkle_L1",
+   "notes": "Wrinkle plank angling DOWN toward the nose point (20, 6.2). Planks twist/converge to the centre point between and below the eyes \u2014 a defining feature (REFERENCE still #5/#6).",
+   "position": {
+    "x": 14.8,
+    "y": 7.0,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 7
+   },
+   "size": {
+    "x": 5.5,
+    "y": 0.55,
+    "z": 0.08
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "siding",
+   "color": "#54646E",
+   "faceFeature": "nose_wrinkle",
+   "layer": "both",
+   "material": "Twisted siding plank",
+   "name": "SidingWrinkle_L2",
+   "notes": "Wrinkle plank, steeper angle toward the nose point.",
+   "position": {
+    "x": 15.2,
+    "y": 5.5,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 12
+   },
+   "size": {
+    "x": 5.0,
+    "y": 0.55,
+    "z": 0.08
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "siding",
+   "color": "#5E707A",
+   "faceFeature": "nose_wrinkle",
+   "layer": "both",
+   "material": "Twisted siding plank",
+   "name": "SidingWrinkle_R1",
+   "notes": "Wrinkle plank angling down toward the nose point (mirror angle of L1, not identical placement).",
+   "position": {
+    "x": 25.2,
+    "y": 7.0,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -7
+   },
+   "size": {
+    "x": 5.5,
+    "y": 0.55,
+    "z": 0.08
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "siding",
+   "color": "#54646E",
+   "faceFeature": "nose_wrinkle",
+   "layer": "both",
+   "material": "Twisted siding plank",
+   "name": "SidingWrinkle_R2",
+   "notes": "Wrinkle plank, steeper angle toward the nose point.",
+   "position": {
+    "x": 24.8,
+    "y": 5.5,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -12
+   },
+   "size": {
+    "x": 5.0,
+    "y": 0.55,
+    "z": 0.08
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "siding",
+   "color": "#4A5A63",
+   "faceFeature": "nose_wrinkle",
+   "layer": "both",
+   "material": "Twisted siding plank",
+   "name": "SidingWrinkle_Centre",
+   "notes": "Near-vertical twisted plank directly under the nose point, above the porch-roof peak \u2014 wrinkle lines radiate from here.",
+   "position": {
+    "x": 20,
+    "y": 5.15,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.55,
+    "y": 2.1,
+    "z": 0.08
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, rotated 45 deg",
+   "category": "siding",
+   "color": "#4A5A63",
+   "faceFeature": "nose",
+   "layer": "both",
+   "material": "Knot of twisted planks",
+   "name": "NosePoint_Hub",
+   "notes": "THE NOSE POINT: the hub the siding wrinkles converge on, between/below the eyes and above the porch-roof centre peak. Small diamond knot of crossed plank ends.",
+   "position": {
+    "x": 20,
+    "y": 6.2,
+    "z": 26.9
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 45
+   },
+   "size": {
+    "x": 0.85,
+    "y": 0.85,
+    "z": 0.1
+   }
+  },
+  {
+   "buildFrom": "Unity box + shake material",
+   "category": "roof",
+   "color": "#2E3B44",
+   "layer": "both",
+   "material": "Large uneven wooden shakes, dark blue-grey",
+   "name": "RoofFrontSlab",
+   "notes": "The dominant roof mass: approx top 40% of H (Y approx 12.3 to ridge 21.2). Backdrop construction \u2014 steep front-facing slope; from the yard only the front elevation reads, and the film house's roof IS near-vertical from the front. Shakes large, uneven, many curled/lifted/missing (vary in material).",
+   "position": {
+    "x": 20,
+    "y": 16.7,
+    "z": 27.6
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 22,
+    "y": 0.35,
+    "z": 9.2
+   }
+  },
+  {
+   "buildFrom": "Unity triangular prism \u2014 size is bounding box",
+   "category": "roof",
+   "color": "#4A5A63",
+   "layer": "both",
+   "material": "Vertical siding (triangular prism)",
+   "name": "GableEnd_West",
+   "notes": "West gable cheek closing the roof end. Triangle: base at Y approx 10.8, apex at ridge Y approx 21.",
+   "position": {
+    "x": 9.4,
+    "y": 15.5,
+    "z": 28.0
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.35,
+    "y": 9.5,
+    "z": 3.2
+   }
+  },
+  {
+   "buildFrom": "Unity triangular prism \u2014 size is bounding box",
+   "category": "roof",
+   "color": "#4A5A63",
+   "layer": "both",
+   "material": "Vertical siding (triangular prism)",
+   "name": "GableEnd_East",
+   "notes": "East gable cheek closing the roof end.",
+   "position": {
+    "x": 30.6,
+    "y": 15.5,
+    "z": 28.0
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.35,
+    "y": 9.5,
+    "z": 3.2
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "roof",
+   "color": "#232F36",
+   "layer": "both",
+   "material": "Worn ridge shingles",
+   "name": "RidgeCap",
+   "notes": "SHORT ridge (REFERENCE: roughly pyramidal/hipped front with a short ridge), not a full-width spine.",
+   "position": {
+    "x": 20,
+    "y": 21.1,
+    "z": 28.6
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -0.8
+   },
+   "size": {
+    "x": 13,
+    "y": 0.4,
+    "z": 1.2
+   }
+  },
+  {
+   "buildFrom": "Unity box + brick material",
+   "category": "roof",
+   "color": "#3A2E2A",
+   "layer": "both",
+   "material": "Small dark brick",
+   "name": "Chimney_Small",
+   "notes": "Small dark chimney JUST LEFT of the ridge centre (REFERENCE ruling 1: poster shows it with smoke; include it, small). A minor accent \u2014 do NOT scale it up.",
+   "position": {
+    "x": 18.6,
+    "y": 20.3,
+    "z": 28.7
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.9,
+    "y": 2.6,
+    "z": 0.9
+   }
+  },
+  {
+   "buildFrom": "Unity cone or particle system",
+   "category": "roof",
+   "color": "#9FB6C4 (pale blue-grey, translucent)",
+   "layer": "both",
+   "material": "Translucent smoke column / particle emitter",
+   "name": "SmokeWisp",
+   "notes": "Thin smoke wisp rising from the chimney (poster #1/#2). Keep it thin and pale; a particle emitter is preferred if available.",
+   "position": {
+    "x": 18.6,
+    "y": 22.3,
+    "z": 28.7
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.8,
+    "y": 1.7,
+    "z": 0.8
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Shingle-clad eave beam",
+   "name": "EaveBeam_West",
+   "notes": "West eave segment.",
+   "position": {
+    "x": 14.6,
+    "y": 12.3,
+    "z": 26.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 1.6
+   },
+   "size": {
+    "x": 10.6,
+    "y": 0.45,
+    "z": 0.4
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Shingle-clad eave beam",
+   "name": "EaveBeam_CentreDip",
+   "notes": "CENTRE EAVE SEGMENT, set approx 0.45 LOWER than the ends \u2014 the eave sags toward the centre of the facade. This sag is cue 1 of the furrowed brow.",
+   "position": {
+    "x": 20,
+    "y": 11.85,
+    "z": 26.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 6.4,
+    "y": 0.45,
+    "z": 0.4
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Shingle-clad eave beam",
+   "name": "EaveBeam_East",
+   "notes": "East eave segment.",
+   "position": {
+    "x": 25.4,
+    "y": 12.3,
+    "z": 26.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -1.6
+   },
+   "size": {
+    "x": 10.6,
+    "y": 0.45,
+    "z": 0.4
+   }
+  },
+  {
+   "buildFrom": "Unity box + shake material",
+   "category": "brow",
+   "color": "#2A363E",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Hanging shingle skirt",
+   "name": "ShingleSkirtBand",
+   "notes": "The shingle-skirt band hanging below the eaves (the transition band, approx 15% of H) \u2014 cue 2 of the brow. Backing band for the ragged shards in front of it.",
+   "position": {
+    "x": 20,
+    "y": 11.0,
+    "z": 26.5
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 21,
+    "y": 2.8,
+    "z": 0.25
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_1",
+   "notes": "Ragged skirt shard hanging below the eave, length 2.4. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 11.5,
+    "y": 11.15,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": 3,
+    "y": 0,
+    "z": 2
+   },
+   "size": {
+    "x": 1.7,
+    "y": 2.4,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2A363E",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_2",
+   "notes": "Ragged skirt shard hanging below the eave, length 1.7. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 13.8,
+    "y": 11.5,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": -2,
+    "y": 0,
+    "z": 2
+   },
+   "size": {
+    "x": 1.7,
+    "y": 1.7,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_3",
+   "notes": "Ragged skirt shard hanging below the eave, length 2.6. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 16.2,
+    "y": 11.049999999999999,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": 3,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 1.7,
+    "y": 2.6,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2A363E",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_4",
+   "notes": "Ragged skirt shard hanging below the eave, length 2.2. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 23.8,
+    "y": 11.25,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": -2,
+    "y": 0,
+    "z": 2
+   },
+   "size": {
+    "x": 1.7,
+    "y": 2.2,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2E3B44",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_5",
+   "notes": "Ragged skirt shard hanging below the eave, length 1.6. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 26.2,
+    "y": 11.549999999999999,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": 3,
+    "y": 0,
+    "z": 2
+   },
+   "size": {
+    "x": 1.7,
+    "y": 1.6,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "brow",
+   "color": "#2A363E",
+   "faceFeature": "brow",
+   "layer": "both",
+   "material": "Splintered shingle shard",
+   "name": "SkirtShard_6",
+   "notes": "Ragged skirt shard hanging below the eave, length 2.5. Lengths are deliberately uneven. NOTE: no shards between X 18.6 and 21.4 \u2014 the skirt is BROKEN AND SPLINTERED AT ITS CENTRE, directly above the nose point (REFERENCE section 2, Brow).",
+   "position": {
+    "x": 28.5,
+    "y": 11.1,
+    "z": 26.32
+   },
+   "rotationDeg": {
+    "x": -2,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 1.7,
+    "y": 2.5,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#5E707A",
+   "layer": "both",
+   "material": "Curled / lifted wooden shake",
+   "name": "ShingleScatter_1",
+   "notes": "One curled, lifted or displaced shake sitting proud of the roof slope \u2014 scattered weathering, never in a pattern.",
+   "position": {
+    "x": 13,
+    "y": 18.5,
+    "z": 27.15
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": 4
+   },
+   "size": {
+    "x": 1.3,
+    "y": 0.09,
+    "z": 0.95
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#5E707A",
+   "layer": "both",
+   "material": "Curled / lifted wooden shake",
+   "name": "ShingleScatter_2",
+   "notes": "One curled, lifted or displaced shake sitting proud of the roof slope \u2014 scattered weathering, never in a pattern.",
+   "position": {
+    "x": 24,
+    "y": 15.2,
+    "z": 26.75
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": -6
+   },
+   "size": {
+    "x": 1.3,
+    "y": 0.09,
+    "z": 0.95
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#5E707A",
+   "layer": "both",
+   "material": "Curled / lifted wooden shake",
+   "name": "ShingleScatter_3",
+   "notes": "One curled, lifted or displaced shake sitting proud of the roof slope \u2014 scattered weathering, never in a pattern.",
+   "position": {
+    "x": 17,
+    "y": 13.8,
+    "z": 26.5
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": 9
+   },
+   "size": {
+    "x": 1.3,
+    "y": 0.09,
+    "z": 0.95
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#5E707A",
+   "layer": "both",
+   "material": "Curled / lifted wooden shake",
+   "name": "ShingleScatter_4",
+   "notes": "One curled, lifted or displaced shake sitting proud of the roof slope \u2014 scattered weathering, never in a pattern.",
+   "position": {
+    "x": 27,
+    "y": 19.2,
+    "z": 27.35
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 1.3,
+    "y": 0.09,
+    "z": 0.95
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#05070A",
+   "layer": "monster",
+   "material": "Jagged torn hole (black patch with splintered rim in material)",
+   "name": "RoofHole_1",
+   "notes": "Monster-mode roof damage: jagged hole torn in the shingles (still #3). Rim should read splintered in the material/trim, not a clean rectangle.",
+   "position": {
+    "x": 15,
+    "y": 16.8,
+    "z": 27.0
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": 5
+   },
+   "size": {
+    "x": 1.7,
+    "y": 0.06,
+    "z": 1.25
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "roof",
+   "color": "#05070A",
+   "layer": "monster",
+   "material": "Jagged torn hole (black patch with splintered rim in material)",
+   "name": "RoofHole_2",
+   "notes": "Monster-mode roof damage: jagged hole torn in the shingles (still #3). Rim should read splintered in the material/trim, not a clean rectangle.",
+   "position": {
+    "x": 25.5,
+    "y": 18.2,
+    "z": 27.25
+   },
+   "rotationDeg": {
+    "x": -73,
+    "y": 0,
+    "z": -7
+   },
+   "size": {
+    "x": 1.7,
+    "y": 0.06,
+    "z": 1.25
+   }
+  },
+  {
+   "buildFrom": "Unity boxes",
+   "category": "eye",
+   "color": "#FFA63D (warm orange emissive pane), frame #2B2118",
+   "faceFeature": "eye_left",
+   "layer": "both",
+   "material": "Emissive glass pane, dark wood frame",
+   "name": "EyeWindow_Left_Flat",
+   "notes": "LEFT EYE \u2014 set FLAT in the main wall. Square window with CROSS MUNTINS (one vertical + one horizontal bar) and a SHALLOW ARCH TRIM on top (REFERENCE ruling 2: satisfies both the poster arch and the film-still cross). Centre at 0.35 W (body fraction), width 0.10 W, taller than wide. Glows warm orange \u2014 one of ONLY two lit windows on the front.",
+   "position": {
+    "x": 17,
+    "y": 7.6,
+    "z": 26.92
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 2.0,
+    "y": 2.4,
+    "z": 0.14
+   },
+   "subParts": [
+    {
+     "name": "Muntin_Left_V",
+     "position": {
+      "x": 17,
+      "y": 7.6,
+      "z": 26.83
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.12,
+      "y": 2.4,
+      "z": 0.06
+     }
+    },
+    {
+     "name": "Muntin_Left_H",
+     "position": {
+      "x": 17,
+      "y": 7.6,
+      "z": 26.83
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 2.0,
+      "y": 0.12,
+      "z": 0.06
+     }
+    },
+    {
+     "name": "ArchTrim_Left",
+     "position": {
+      "x": 17,
+      "y": 8.95,
+      "z": 26.9
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 2.4,
+      "y": 0.32,
+      "z": 0.18
+     }
+    }
+   ]
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "eye",
+   "color": "#4A5A63",
+   "faceFeature": "eye_right",
+   "layer": "both",
+   "material": "Siding-clad dormer box",
+   "name": "EyeDormerBox_Right",
+   "notes": "The projecting DORMER BOX carrying the right eye. Juts approx 1.65 forward out of the wall/roof-slope line \u2014 the defining asymmetry of the face (REFERENCE stills #2/#6/#7). It projects FORWARD, not up: the right eye stays on the same level as the left (ruling 5).",
+   "position": {
+    "x": 23,
+    "y": 7.7,
+    "z": 26.2
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 3.2,
+    "y": 3.4,
+    "z": 1.7
+   }
+  },
+  {
+   "buildFrom": "Unity boxes",
+   "category": "eye",
+   "color": "#FFA63D (warm orange emissive pane), frame #2B2118",
+   "faceFeature": "eye_right",
+   "layer": "both",
+   "material": "Emissive glass pane, dark wood frame",
+   "name": "EyeWindow_Right_4Pane",
+   "notes": "RIGHT EYE \u2014 square 2x2 FOUR-PANE window in the dormer face. Centre at 0.65 W (body fraction), width 0.10 W, same level as the left eye. Glows the same warm orange.",
+   "position": {
+    "x": 23,
+    "y": 7.6,
+    "z": 25.3
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 2.0,
+    "y": 2.4,
+    "z": 0.14
+   },
+   "subParts": [
+    {
+     "name": "Muntin_Right_V",
+     "position": {
+      "x": 23,
+      "y": 7.6,
+      "z": 25.21
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.12,
+      "y": 2.4,
+      "z": 0.06
+     }
+    },
+    {
+     "name": "Muntin_Right_H",
+     "position": {
+      "x": 23,
+      "y": 7.6,
+      "z": 25.21
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 2.0,
+      "y": 0.12,
+      "z": 0.06
+     }
+    }
+   ]
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "eye",
+   "color": "#2E3B44",
+   "faceFeature": "eye_right",
+   "layer": "both",
+   "material": "Dark shingles",
+   "name": "DormerRoof_Right",
+   "notes": "Small shed cap over the dormer, tucking up under the shingle-skirt band.",
+   "position": {
+    "x": 23,
+    "y": 9.55,
+    "z": 26.2
+   },
+   "rotationDeg": {
+    "x": -12,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 3.6,
+    "y": 0.25,
+    "z": 2.1
+   }
+  },
+  {
+   "buildFrom": "Unity point light",
+   "category": "lighting",
+   "color": "#FF9A2A",
+   "layer": "both",
+   "material": "Point light",
+   "name": "EyeHalo_Left",
+   "notes": "Soft orange halo spilling from the left eye onto the surrounding siding (REFERENCE: glow has a soft halo). Low intensity, range approx 3.5.",
+   "position": {
+    "x": 17,
+    "y": 7.6,
+    "z": 26.1
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.1,
+    "y": 0.1,
+    "z": 0.1
+   }
+  },
+  {
+   "buildFrom": "Unity point light",
+   "category": "lighting",
+   "color": "#FF9A2A",
+   "layer": "both",
+   "material": "Point light",
+   "name": "EyeHalo_Right",
+   "notes": "Soft orange halo for the dormer eye \u2014 match the left eye's intensity so the glare is even.",
+   "position": {
+    "x": 23,
+    "y": 7.6,
+    "z": 24.6
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.1,
+    "y": 0.1,
+    "z": 0.1
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#46525A",
+   "layer": "both",
+   "material": "Worn porch boards, blue-grey",
+   "name": "PorchFloor",
+   "notes": "Full-width porch floor: 21 wide = 1.05 W, depth 2.1 = 0.105 W (REFERENCE: porch approx 1.0-1.05 W wide, 0.10-0.12 W deep). Top at Y 0.6.",
+   "position": {
+    "x": 20,
+    "y": 0.35,
+    "z": 25.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 21,
+    "y": 0.5,
+    "z": 2.1
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#46525A",
+   "layer": "both",
+   "material": "Worn porch boards",
+   "name": "PorchSteps",
+   "notes": "Porch steps on the centre line, where the yard walkway (yard section) arrives. Top step of the porch, inside the facade zone.",
+   "position": {
+    "x": 20,
+    "y": 0.18,
+    "z": 23.65
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 3.2,
+    "y": 0.36,
+    "z": 0.65
+   }
+  },
+  {
+   "buildFrom": "Unity thin boxes (10 posts)",
+   "category": "porch",
+   "color": "#39434A",
+   "layer": "both",
+   "material": "Thin timber posts / screen frames",
+   "name": "PorchPostSet",
+   "notes": "Thin vertical posts/screen frames in a regular rhythm, one every approx 0.105 W across the porch front. Dark screened openings between them. MONSTER NOTE: the posts at X 14.8 and 25.3 are snapped at half height in monster mode \u2014 the mouth has burst through the screen rhythm.",
+   "position": {
+    "x": 20,
+    "y": 2.45,
+    "z": 24.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.18,
+    "y": 3.7,
+    "z": 0.18
+   },
+   "subParts": [
+    {
+     "name": "PorchPost_1",
+     "position": {
+      "x": 10.6,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_2",
+     "position": {
+      "x": 12.7,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_3",
+     "position": {
+      "x": 14.8,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_4",
+     "position": {
+      "x": 16.9,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_5",
+     "position": {
+      "x": 19.0,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_6",
+     "position": {
+      "x": 21.1,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_7",
+     "position": {
+      "x": 23.2,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_8",
+     "position": {
+      "x": 25.3,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_9",
+     "position": {
+      "x": 27.4,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    },
+    {
+     "name": "PorchPost_10",
+     "position": {
+      "x": 29.5,
+      "y": 2.45,
+      "z": 24.95
+     },
+     "rotationDeg": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "size": {
+      "x": 0.18,
+      "y": 3.7,
+      "z": 0.18
+     }
+    }
+   ]
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#39434A",
+   "layer": "rest",
+   "material": "Simple timber railing",
+   "name": "PorchRail_Low",
+   "notes": "Low simple railing along the porch front (rest layer). In monster mode it is burst/broken \u2014 hidden with the rest layer; the lower teeth replace its line.",
+   "position": {
+    "x": 20,
+    "y": 1.05,
+    "z": 24.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0.5
+   },
+   "size": {
+    "x": 20,
+    "y": 0.45,
+    "z": 0.12
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#0A0E11",
+   "layer": "both",
+   "material": "Near-black shadow panel",
+   "name": "PorchInteriorShadow",
+   "notes": "Deep-shadow porch interior backdrop behind the posts. The porch interior is in deep shadow in every reference.",
+   "position": {
+    "x": 20,
+    "y": 2.35,
+    "z": 26.78
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 20.5,
+    "y": 4.1,
+    "z": 0.25
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#2E3B44",
+   "layer": "both",
+   "material": "Shingled low-pitched porch roof",
+   "name": "PorchRoof_WestHalf",
+   "notes": "West half of the low-pitched porch roof, rising approx 1.2 deg toward the centre peak (the peak sits under the nose point). MONSTER: this roof group tilts UP approx 12 deg at the front edge \u2014 it becomes the upper lip (see MouthUpperLip note on the teeth).",
+   "position": {
+    "x": 14.9,
+    "y": 4.42,
+    "z": 25.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 1.2
+   },
+   "size": {
+    "x": 10.4,
+    "y": 0.28,
+    "z": 2.5
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#2E3B44",
+   "layer": "both",
+   "material": "Shingled low-pitched porch roof",
+   "name": "PorchRoof_EastHalf",
+   "notes": "East half of the porch roof, rising toward the centre peak. MONSTER: tilts up as upper lip with the west half.",
+   "position": {
+    "x": 25.1,
+    "y": 4.42,
+    "z": 25.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -1.2
+   },
+   "size": {
+    "x": 10.4,
+    "y": 0.28,
+    "z": 2.5
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "porch",
+   "color": "#232F36",
+   "layer": "both",
+   "material": "Ridge board",
+   "name": "PorchRoofPeak",
+   "notes": "The slight centre peak of the porch roof, directly below the nose point (20, 6.2).",
+   "position": {
+    "x": 20,
+    "y": 4.62,
+    "z": 25.95
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.45,
+    "y": 0.22,
+    "z": 2.5
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "door",
+   "color": "#241A10",
+   "layer": "rest",
+   "material": "Dark timber door",
+   "name": "FrontDoor_Open",
+   "notes": "Front door, centred at body fraction 0.47-0.50 W (centre X 19.85; slab swung open so its centre sits west). Shown OPEN, swung inward. REST LAYER: in the default monster backdrop this door is inside the mouth and its light is OFF (REFERENCE: 'The door and its light are gone/inside the mouth in this mode').",
+   "position": {
+    "x": 19.3,
+    "y": 1.95,
+    "z": 26.9
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": -28,
+    "z": 0
+   },
+   "size": {
+    "x": 1.8,
+    "y": 3.3,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box",
+   "category": "door",
+   "color": "#FFD76A (bright yellow-white emissive)",
+   "faceFeature": "door_light",
+   "layer": "rest",
+   "material": "Emissive plane",
+   "name": "DoorGlow_Plane",
+   "notes": "The open doorway itself, pouring intense yellow-white light \u2014 at rest this is the BRIGHTEST element in the whole scene (REFERENCE). REST LAYER ONLY: hidden in monster mode.",
+   "position": {
+    "x": 20.35,
+    "y": 1.95,
+    "z": 26.93
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 1.7,
+    "y": 3.3,
+    "z": 0.06
+   }
+  },
+  {
+   "buildFrom": "Unity thin box / decal",
+   "category": "door",
+   "color": "#FFD76A (soft emissive, low opacity)",
+   "layer": "rest",
+   "material": "Emissive light-pool decal",
+   "name": "DoorLightSpill",
+   "notes": "Pool of door light spilled across the porch floor (and in the full scene it continues down the walkway \u2014 walkway is the yard section). REST LAYER ONLY.",
+   "position": {
+    "x": 20.2,
+    "y": 0.63,
+    "z": 25.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 3.2,
+    "y": 0.03,
+    "z": 1.9
+   }
+  },
+  {
+   "buildFrom": "Unity point light",
+   "category": "lighting",
+   "color": "#FFD76A",
+   "layer": "rest",
+   "material": "Point light",
+   "name": "DoorLight_Pool",
+   "notes": "Warm yellow-white light source for the open door. REST LAYER ONLY \u2014 OFF in the default monster state.",
+   "position": {
+    "x": 20.2,
+    "y": 1.2,
+    "z": 25.3
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.1,
+    "y": 0.1,
+    "z": 0.1
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "mouth",
+   "color": "#05070A",
+   "faceFeature": "mouth",
+   "layer": "monster",
+   "material": "Near-black interior (a bare hint of dark red-brown #1A0D0A deep inside is film-accurate)",
+   "name": "MouthInterior_Black",
+   "notes": "The mouth cavity: spans 17 = 0.85 W, full porch height (Y 0.6-4.1). Near-black inside. This panel sits in front of the porch shadow panel and swallows the door.",
+   "position": {
+    "x": 20,
+    "y": 2.35,
+    "z": 26.45
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 17,
+    "y": 3.5,
+    "z": 0.35
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#4A5A63",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_1",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 1.35 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 12.4,
+    "y": 3.575,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.7,
+    "y": 1.35,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#5E707A",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_2",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 0.75 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 14.3,
+    "y": 3.875,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.75,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_3",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 1.2 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 16.2,
+    "y": 3.65,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.8,
+    "y": 1.2,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#4A5A63",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_4",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 0.5 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 18.1,
+    "y": 4.0,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.55,
+    "y": 0.5,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#5E707A",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_5",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 1.4 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 20.2,
+    "y": 3.55,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.75,
+    "y": 1.4,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_6",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 0.85 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 22.3,
+    "y": 3.825,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.85,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#4A5A63",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_7",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 1.15 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 24.6,
+    "y": 3.675,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.8,
+    "y": 1.15,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#5E707A",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_8",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 0.6 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 26.9,
+    "y": 3.95,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.55,
+    "y": 0.6,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, bottom edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "upper_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "UpperTooth_9",
+   "notes": "Upper tooth hanging from the lifted porch-roof edge. Length 1.0 (longest teeth 1.4 = 40% of the 3.5 mouth height; several broken short \u2014 lengths MUST stay uneven). Grey-blue splintered house timber \u2014 NEVER white, never even (REFERENCE). Angled slightly inward.",
+   "position": {
+    "x": 28.2,
+    "y": 3.75,
+    "z": 24.72
+   },
+   "rotationDeg": {
+    "x": 6,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.65,
+    "y": 1.0,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_1",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 0.95 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 12.8,
+    "y": 0.855,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.95,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#5E707A",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_2",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 0.6 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 15.0,
+    "y": 0.6799999999999999,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.6,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#4A5A63",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_3",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 1.05 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 17.2,
+    "y": 0.905,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 1.05,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_4",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 0.7 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 19.4,
+    "y": 0.73,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.7,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#5E707A",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_5",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 1.0 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 21.6,
+    "y": 0.88,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": -3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 1.0,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#4A5A63",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_6",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 0.65 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 23.9,
+    "y": 0.7050000000000001,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 3
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.65,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity thin box, top edge jagged in material",
+   "category": "mouth",
+   "color": "#54646E",
+   "faceFeature": "lower_teeth",
+   "layer": "monster",
+   "material": "Splintered grey-blue timber board",
+   "name": "LowerTooth_7",
+   "notes": "Lower tooth splintering UP from the dropped porch floor (lower jaw). Height 0.9 (band: 25-30% of mouth height = 0.9-1.05 max). Same grey-blue splintered timber as the upper teeth.",
+   "position": {
+    "x": 26.2,
+    "y": 0.8300000000000001,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.6,
+    "y": 0.9,
+    "z": 0.14
+   }
+  },
+  {
+   "buildFrom": "Unity box",
+   "category": "mouth",
+   "color": "#46525A",
+   "faceFeature": "mouth",
+   "layer": "monster",
+   "material": "Porch boards",
+   "name": "PorchFloor_LowerJaw",
+   "notes": "The front strip of the porch floor DROPPED/tilted down as the lower jaw, spanning the mouth width (0.85 W). The lower teeth root in this strip.",
+   "position": {
+    "x": 20,
+    "y": 0.22,
+    "z": 24.45
+   },
+   "rotationDeg": {
+    "x": -6,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 17,
+    "y": 0.32,
+    "z": 0.9
+   }
+  },
+  {
+   "buildFrom": "Unity cylinder, tapered",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare gnarled bark, near-black blue-grey",
+   "name": "GnarledTree_Left_Trunk",
+   "notes": "Massive bare tree framing the WEST side: trunk at approx -0.66 W from centre, trunk width 0.08 W (REFERENCE: trunks at +/-0.6-0.7 W, width 0.07-0.09 W). Leafless, twisted, pale moon rim light on its edges.",
+   "position": {
+    "x": 6.8,
+    "y": 6.6,
+    "z": 25.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 4
+   },
+   "size": {
+    "x": 1.6,
+    "y": 13,
+    "z": 1.6
+   }
+  },
+  {
+   "buildFrom": "Unity tapered cylinder",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare branch",
+   "name": "GnarledBranch_L1",
+   "notes": "Long branch reaching east over the roof's west corner.",
+   "position": {
+    "x": 9.6,
+    "y": 12.6,
+    "z": 25.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 18
+   },
+   "size": {
+    "x": 6.2,
+    "y": 0.5,
+    "z": 0.5
+   }
+  },
+  {
+   "buildFrom": "Unity tapered cylinder",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare branch",
+   "name": "GnarledBranch_L2",
+   "notes": "Branch clawing down toward the porch's west end.",
+   "position": {
+    "x": 8.4,
+    "y": 10.2,
+    "z": 25.6
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -25
+   },
+   "size": {
+    "x": 4.2,
+    "y": 0.4,
+    "z": 0.4
+   }
+  },
+  {
+   "buildFrom": "Unity cylinder, tapered",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare gnarled bark, near-black blue-grey",
+   "name": "GnarledTree_Right_Trunk",
+   "notes": "Massive bare tree framing the EAST side (+0.66 W). NOT a mirror of the left tree \u2014 different lean, different branches. NOTE: no tree-limb ARMS on the house itself \u2014 arms are climax-only extras, excluded by REFERENCE ruling for the default backdrop.",
+   "position": {
+    "x": 33.2,
+    "y": 6.6,
+    "z": 25.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -5
+   },
+   "size": {
+    "x": 1.6,
+    "y": 13,
+    "z": 1.6
+   }
+  },
+  {
+   "buildFrom": "Unity tapered cylinder",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare branch",
+   "name": "GnarledBranch_R1",
+   "notes": "Long branch reaching west over the roof's east corner.",
+   "position": {
+    "x": 30.4,
+    "y": 13.1,
+    "z": 25.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": -16
+   },
+   "size": {
+    "x": 6.2,
+    "y": 0.5,
+    "z": 0.5
+   }
+  },
+  {
+   "buildFrom": "Unity tapered cylinder",
+   "category": "trees",
+   "color": "#1E2A30",
+   "layer": "both",
+   "material": "Bare branch",
+   "name": "GnarledBranch_R2",
+   "notes": "Branch clawing down toward the porch's east end.",
+   "position": {
+    "x": 31.8,
+    "y": 9.8,
+    "z": 25.6
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 22
+   },
+   "size": {
+    "x": 4.0,
+    "y": 0.4,
+    "z": 0.4
+   }
+  },
+  {
+   "buildFrom": "Unity cylinders group",
+   "category": "trees",
+   "color": "#16222A",
+   "layer": "both",
+   "material": "Cluster of 3 thin bare trunks + branch tangles (bounding box)",
+   "name": "GroveSilhouette_West",
+   "notes": "Dense bare trees packing the west side behind the framing tree \u2014 the house sits in a dead grove, not an open lawn (REFERENCE still #4).",
+   "position": {
+    "x": 2.2,
+    "y": 5,
+    "z": 27.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 2.6,
+    "y": 10,
+    "z": 1.8
+   }
+  },
+  {
+   "buildFrom": "Unity cylinders group",
+   "category": "trees",
+   "color": "#16222A",
+   "layer": "both",
+   "material": "Cluster of 3 thin bare trunks + branch tangles (bounding box)",
+   "name": "GroveSilhouette_East",
+   "notes": "Dense bare trees packing the east side.",
+   "position": {
+    "x": 37.8,
+    "y": 5,
+    "z": 27.8
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 2.6,
+    "y": 10,
+    "z": 1.8
+   }
+  },
+  {
+   "buildFrom": "Unity light",
+   "category": "lighting",
+   "color": "#BFD9E8",
+   "layer": "both",
+   "material": "Directional/point light, pale moon blue",
+   "name": "MoonRimLight",
+   "notes": "Pale-blue moon rim light from behind/above the roof (full moon behind the roof in the poster). This and the eye halos are the only cool lights; the ONLY warm lights in the scene are the two eyes (plus door light at rest).",
+   "position": {
+    "x": 20,
+    "y": 23,
+    "z": 29.4
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 0.1,
+    "y": 0.1,
+    "z": 0.1
+   }
+  },
+  {
+   "buildFrom": "Unity box, transparent material, or fog planes",
+   "category": "mood",
+   "color": "#9FB6C4 (pale blue-grey, low opacity)",
+   "layer": "both",
+   "material": "Translucent mist band",
+   "name": "MistBand_Base",
+   "notes": "Low ground mist/dust hugging the base of the house (monster-mode stills). Keep it low and thin.",
+   "position": {
+    "x": 20,
+    "y": 0.3,
+    "z": 24.2
+   },
+   "rotationDeg": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "size": {
+    "x": 23,
+    "y": 0.6,
+    "z": 1.4
+   }
+  }
+ ],
+ "ratios": {
+  "H": "Total height H = 21 units (ground to ridge approx 21.3). H/W = 1.05 \u2014 inside the REFERENCE band 1.0-1.1.",
+  "W": "House body width W = 20 units (body X 10-30, centre X = 20). All REFERENCE ratios are fractions of W measured from the body's west edge (X = 10).",
+  "bands": "Porch band Y 0-5 (approx 24% of H); upper wall band Y 5-9.5 (approx 21%); shingle-skirt/brow transition Y 9.5-12.6 (approx 15%); roof mass Y 12.3-21.3 (approx 40%+ \u2014 slab base overlaps the skirt top).",
+  "eyes": "Centres X 17 (= 0.35 W) and X 23 (= 0.65 W); spacing 6 = 0.30 W (band 0.30-0.35). Each 2.0 wide = 0.10 W (band 0.09-0.11), 2.4 tall (taller than wide), same level Y centre 7.6 (ruling 5).",
+  "mouth": "Width 17 = 0.85 W; height 3.5 (porch interior Y 0.6-4.1). Upper teeth longest 1.4 = 40% of mouth height; lower teeth max 1.05 = 30%.",
+  "porch": "Width 21 = 1.05 W; depth 2.1 = 0.105 W (band 0.10-0.12). Door centre X 19.85 = 0.4925 W (band 0.47-0.50).",
+  "trees": "Framing trunks at X 6.8 and 33.2 = +/-0.66 W from centre (band 0.6-0.7); trunk width 1.6 = 0.08 W (band 0.07-0.09)."
+ },
+ "section": "02-house-facade",
+ "sourceOfTruth": "repo/00-reference/REFERENCE.md (replica checklist, section 3). This manifest supersedes the earlier generic haunted-house manifest, which the user rejected as not accurate to the film.",
+ "title": "Monster House Facade \u2014 REPLICA build (2006 film), north backdrop"
+}
