@@ -1,0 +1,6 @@
+<hr:UXML xmlns:hr="Highrise.UI">
+    <!-- World-space screen surface for the trivia stage (DESIGN.md Zone D,
+         object hook name "TriviaScreen"). Bind name must match
+         TriviaScreenUI.lua exactly: triviaScreenLabel -->
+    <hr:UILabel name="triviaScreenLabel" text="TRIVIA NIGHT" />
+</hr:UXML>
