@@ -328,7 +328,9 @@ def main(argv=None):
     module = to_lua_module(entries)
 
     if args.out:
-        Path(args.out).write_text(module, encoding="utf-8")
+        out_path = Path(args.out)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(module, encoding="utf-8")
     else:
         sys.stdout.write(module)
 
