@@ -46,7 +46,7 @@ Highrise pins **Unity 2022.3.30f1** — do not substitute another version.
 **[VERIFIED — Highrise Beginner Guide, Lecture 2]**
 
 1. Download Unity Hub:
-   `https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe`
+   `https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup-x64.exe`
    **[VERIFIED — this is Unity's official CDN URL, cited in Unity/VRChat
    deployment docs]**
 2. Silent install: `UnityHubSetup.exe /S`
