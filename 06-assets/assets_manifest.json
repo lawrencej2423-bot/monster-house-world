@@ -1,0 +1,917 @@
+{
+  "manifest": "Monster House Highrise World - Asset Manifest",
+  "version": "1.0",
+  "date": "2026-11-22",
+  "owner": "LJAAYY",
+  "style_rule": "UPDATED BY USER CORRECTION 2026-11-22: the house must match the ACTUAL Monster House film house (~95% replica) - see repo/00-reference/REFERENCE.md, which is now the authority for the facade and yard look. This supersedes DESIGN.md section 2's earlier 'original in-style only, not a replica' wording. Build the facade/yard assets in this manifest against REFERENCE.md details (glowing orange eye windows, tooth-plank mouth, KEEP AWAY / BEWARE lawn signs, gnarled trees, sagging porch).",
+  "setting_rule": "The playable world is the FRONT YARD. The house is a background facade at the north end (Z 23-30) and is not enterable in v1. Casino/bot functions from DESIGN.md sections 3 and 5 are dressed into the yard and porch, keeping their exact DESIGN names, positions, and clearances.",
+  "naming_rule": "design_name = the exact object name from DESIGN.md sections 3/5; scripts and bot stations reference these character-for-character. proposed_name = true means DESIGN.md describes the item but gives it no name, so this manifest proposes one - it is NOT a DESIGN name. Every seated item needs an Anchor Point in Studio or avatars cannot sit on it (ASSETS.md section 5).",
+  "source_types": {
+    "CAT-FREE": "Highrise Asset Catalog, free low-poly range (specific price only visible inside Studio)",
+    "CAT-GOLD?": "Asset Catalog, may require Gold - check price in Studio before use, never buy without the user's OK",
+    "UNITY": "Built from Unity/Studio primitives, lights, and materials - no catalog download",
+    "BUILT-IN": "Ships with the Highrise Studio Package",
+    "CUSTOM": "Custom/imported asset - only if the stock + primitives route fails; do not block the build on these"
+  },
+  "zones": {
+    "front_yard": [
+      {
+        "name": "SpawnPoint",
+        "design_name": "SpawnPoint",
+        "proposed_name": false,
+        "description": "The world spawn marker at the south edge of the yard (20, 0, 3), facing north toward the house. Invisible marker object, not a visible prop.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject / built-in spawn point in the Studio scene at the DESIGN coordinates; no mesh needed.",
+        "source_type": "BUILT-IN"
+      },
+      {
+        "name": "EntryArch",
+        "design_name": "EntryArch",
+        "proposed_name": false,
+        "description": "Yard entry arch at the south boundary (X 17-23, Z 0), 6 wide, 5 high, gold trim. Dressed as a crooked wooden yard gate arch in the haunted-house style.",
+        "quantity": 1,
+        "catalog_search_terms": ["arch", "gate", "garden gate", "door frame"],
+        "primitives_fallback": "Two tilted box posts + one slightly sagging box lintel, dark warped-wood material, thin gold-trim boxes on the edges.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "MarqueeSign",
+        "design_name": "MarqueeSign",
+        "proposed_name": false,
+        "description": "Neon emissive sign above the entry arch (inside face, Y 5.5). Text: world name (default REAL GAMBLERS) with 'POKER - BLACKJACK - RPS - TRIVIA' under it.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "neon sign", "banner"],
+        "primitives_fallback": "Flat box panel with emissive material + a text sign panel on its face (per DESIGN section 1 asset rule for named custom items).",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "WelcomeSign",
+        "design_name": "WelcomeSign",
+        "proposed_name": false,
+        "description": "Rules / how-to panel at (16.5, 1.6, 5.8) facing the spawn. Exact text from DESIGN section 3 Zone A: 'Welcome! Whisper a bot or say !help in chat. !poker / !blackjack / !rps / !trivia to play. Cashouts are whispered - check your DMs.'",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "notice board", "board"],
+        "primitives_fallback": "Weathered wooden board from a flat box on two short posts, text panel on the face.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotGreeterAnchor_A",
+        "design_name": "BotGreeterAnchor_A",
+        "proposed_name": false,
+        "description": "Invisible anchor at (23.5, 0, 4) near spawn - LJAAYY2's off-peak greeter station (DESIGN section 5). No physical marker specified.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the DESIGN coordinates with the exact name; no mesh.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "EntryPlanter",
+        "design_name": "EntryPlanter",
+        "proposed_name": false,
+        "description": "Low planters at (14, 0, 4) and (26, 0, 4) flanking the spawn flow. DESIGN Zone A text says 'palm', but the section 2 Monster House style overrides the dressing: dead shrubs and bare twisted branches in autumn planters, NOT palms (see mismatches_fixed in ASSETS_GUIDE.md).",
+        "quantity": 2,
+        "catalog_search_terms": ["planter", "plant", "dead bush", "shrub", "tree"],
+        "primitives_fallback": "Low box planter (dark wood) + 3-4 thin tilted cylinders as bare branches, brown/grey materials.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "EntryBench",
+        "design_name": "EntryBench",
+        "proposed_name": false,
+        "description": "Sittable benches at (10, 0, 5) and (30, 0, 5) facing north - overflow waiting space at the yard entry. Sit Anchor Point required on each.",
+        "quantity": 2,
+        "catalog_search_terms": ["bench", "Wooden Bench"],
+        "primitives_fallback": "The catalog 'Wooden Bench' (Furniture) is a verified item and the official Anchor Points example; if unavailable, 3 horizontal box slats on 2 box legs.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "Yard_DeadLawn",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The yard ground itself: patchy dead lawn (brown/yellow-green, bare dirt patches) covering the play area, with the red entry carpet strip at Z 0-6 and the 4-wide central path (X 18-22) kept clear per DESIGN section 1.",
+        "quantity": 1,
+        "catalog_search_terms": ["grass", "ground", "lawn", "terrain", "floor"],
+        "primitives_fallback": "Large flat plane/box slab with a patchy dead-grass material; dirt patches as flat darker decal planes on top.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Yard_Walkway",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Cracked stepping-stone / worn path from the entry arch north through the yard toward the porch - the visual version of DESIGN's central aisle. Must stay clear of furniture (X 18-22 corridor).",
+        "quantity": 1,
+        "catalog_search_terms": ["path", "stepping stone", "stone", "walkway"],
+        "primitives_fallback": "Series of flat, slightly rotated stone-grey cylinders/boxes sunk into the lawn along the aisle.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Yard_TwistedTree",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Bare GNARLED trees (film reference): leaning trunks, claw-like bare branches, no leaves. One hero tree in the yard plus one smaller gnarled tree near the facade corner. Keep them outside the central aisle and outside every table's 1.5-unit clear ring.",
+        "quantity": 2,
+        "catalog_search_terms": ["tree", "dead tree", "spooky tree", "bare tree"],
+        "primitives_fallback": "Tapered tilted cylinder trunk + 4-6 progressively thinner tilted cylinders as branches, dark bark material.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Yard_Fence",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Crooked picket fence runs along the yard's side edges - suburban front-yard framing in the haunted style, slats uneven and slightly leaning. Do not fence across the entry arch or the aisle.",
+        "quantity": 1,
+        "catalog_search_terms": ["fence", "picket fence", "railing"],
+        "primitives_fallback": "Repeated thin boxes (pickets) with random small tilts on 2 horizontal rails, weathered grey wood material.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Yard_FallenLeaves",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Scattered autumn leaf piles and leaf-litter decals across the lawn - cheap dressing that sells the autumn/Halloween mood. Keep piles out of the aisle and table clear rings.",
+        "quantity": 6,
+        "catalog_search_terms": ["leaves", "leaf pile", "autumn", "decal"],
+        "primitives_fallback": "Flat orange/brown decal planes + a few low squashed spheres as leaf piles.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Yard_Streetlamp",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "One old streetlamp / yard lamp near the entry corner, warm dim light - supports the global warm lighting plan and the dim amber mood.",
+        "quantity": 1,
+        "catalog_search_terms": ["lamp", "street lamp", "lantern", "light"],
+        "primitives_fallback": "Thin cylinder pole + small emissive amber box/sphere lamp head + one Unity point light (the prop alone does not light the scene).",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Yard_SignKeepAway",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Weathered wooden lawn sign hand-painted 'KEEP AWAY' (film reference lawn sign), planted tilted in the lawn near the walkway. One of the house's two warning signs - pure mood dressing, keep out of the aisle.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "wooden sign", "warning sign"],
+        "primitives_fallback": "Flat weathered box board on a tilted box post + text panel reading KEEP AWAY.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Yard_SignBeware",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Weathered wooden lawn sign hand-painted 'BEWARE' (film reference lawn sign), the second warning sign, planted at a crooked angle on the other side of the yard. Mood dressing only.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "wooden sign", "warning sign"],
+        "primitives_fallback": "Flat weathered box board on a tilted box post + text panel reading BEWARE.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "LoungeSofa_1",
+        "design_name": "LoungeSofa_1",
+        "proposed_name": false,
+        "description": "Yard social seating set 1 (DESIGN Zone C dressed into the yard's east side): L-shaped sofa + 2 armchairs around a low coffee table at (29, 0, 18) facing west. All seats sittable - Anchor Points required.",
+        "quantity": 1,
+        "catalog_search_terms": ["sofa", "couch", "armchair", "coffee table"],
+        "primitives_fallback": "Box-base sofa with box back/arms in worn dark fabric colors + a flat box coffee table.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "LoungeSofa_2",
+        "design_name": "LoungeSofa_2",
+        "proposed_name": false,
+        "description": "Yard social seating set 2: L-shaped sofa + 2 armchairs around a low coffee table at (35, 0, 12) facing north. All seats sittable - Anchor Points required.",
+        "quantity": 1,
+        "catalog_search_terms": ["sofa", "couch", "armchair", "coffee table"],
+        "primitives_fallback": "Same primitive build as LoungeSofa_1, mirrored.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "LoungeRug",
+        "design_name": "LoungeRug",
+        "proposed_name": false,
+        "description": "Muted-pattern rug under each yard lounge set - visually quiets the social corner against the game pits.",
+        "quantity": 2,
+        "catalog_search_terms": ["rug", "carpet", "decal"],
+        "primitives_fallback": "Flat box (0.02 high) with a muted patterned material.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "BarCounter",
+        "design_name": "BarCounter",
+        "proposed_name": false,
+        "description": "Non-functional bar counter along the east edge (X 38-39.5, Z 13-19) with 5 sittable bar stools and a back shelf with bottle dressing. Sign above: 'THE LOUNGE'. In the yard dressing it reads as a porch-side refreshment stand. Stools need Anchor Points.",
+        "quantity": 1,
+        "catalog_search_terms": ["counter", "bar", "shelf", "stool"],
+        "primitives_fallback": "Long box counter + box back shelf; bottles as small colored cylinders; stools as cylinder seat on a cylinder leg.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "LoungePlant",
+        "design_name": "LoungePlant",
+        "proposed_name": false,
+        "description": "Tall plants at (27, 0, 21), (38, 0, 9), (27, 0, 9) - soft dividers between the lounge corner and the casino floor. Dressed as overgrown/dead yard plants per section 2 style.",
+        "quantity": 3,
+        "catalog_search_terms": ["plant", "tree", "bush", "planter"],
+        "primitives_fallback": "Pot (cylinder) + several tilted thin cylinders/cones as bare overgrown stems.",
+        "source_type": "CAT-FREE"
+      }
+    ],
+    "facade": [
+      {
+        "name": "Facade_HouseShell",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The Monster House itself: an ORIGINAL crooked two-story suburban house shell standing at the north end (Z 23-30) as a backdrop. Exaggerated lean, warped proportions, bold cartoon outlines. Backdrop only - not enterable, no interior. Not a replica of any film house.",
+        "quantity": 1,
+        "catalog_search_terms": ["house", "haunted house", "cottage", "building"],
+        "primitives_fallback": "Stacked, slightly rotated boxes for the two-story body with a deliberate lean (1-2 degrees), dark outline trim boxes on the edges.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_WarpedSiding",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Warped, wavy wood-siding surface treatment for the house shell - uneven horizontal siding boards, weathered grey-brown.",
+        "quantity": 1,
+        "catalog_search_terms": ["wood", "siding", "planks", "wall"],
+        "primitives_fallback": "Horizontal thin boxes with slight random offsets/rotations over the shell walls, weathered wood material.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_SteepRoof",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Steep shingled roof on the house shell, slightly sagging ridge, dark shingles - silhouette piece that makes the house loom over the yard.",
+        "quantity": 1,
+        "catalog_search_terms": ["roof", "shingles", "gable"],
+        "primitives_fallback": "Two large sloped boxes meeting at a ridge, dark shingle material; add a thin sagging ridge box.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_EyeWindows",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The two upper front windows placed and lit like angry watchful EYES - the top half of the house's mad face. Angled/tilted frames (angry brow tilt), GLOWING ORANGE from inside - the film house's two glowing orange eye windows (see repo/00-reference/REFERENCE.md).",
+        "quantity": 2,
+        "catalog_search_terms": ["window", "window frame", "shutters", "orange window"],
+        "primitives_fallback": "Box frame + emissive ORANGE plane inset, whole window tilted a few degrees inward like a scowl; a slanted box 'brow' board above each.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_DoorMouth",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The front door and porch opening shaped and lit like a MOUTH - the bottom half of the mad face. Dark doorway, warm light spilling out, door slightly ajar.",
+        "quantity": 1,
+        "catalog_search_terms": ["door", "doorway", "front door"],
+        "primitives_fallback": "Recessed dark box doorway + a door box rotated slightly open + emissive warm plane behind the gap.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_Porch",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Creaky front porch across the house front: deck with boards that SAG visibly in the middle (the film house's sagging porch), crooked posts, sagging porch roof. The porch boards double as the lower edge of the monster mouth. Backdrop dressing at the base of the facade (the playable VIP overlook is the separate VIP porch zone).",
+        "quantity": 1,
+        "catalog_search_terms": ["porch", "deck", "veranda", "awning"],
+        "primitives_fallback": "Flat box deck + 4 tilted cylinder/box posts + one sloped box porch roof, weathered wood.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_PorchSteps",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Worn steps from the yard up to the facade porch - visual only in v1 (house not enterable).",
+        "quantity": 1,
+        "catalog_search_terms": ["steps", "stairs"],
+        "primitives_fallback": "3 stacked boxes of decreasing depth, cracked stone/wood material.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_OrangeGlow",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Glowing ORANGE interior light for the facade (renamed from AmberGlow per the film-reference correction): emissive orange window planes + 1-2 warm orange point lights behind the eye windows and the door-mouth gap. This is the house's 'alive' light.",
+        "quantity": 1,
+        "catalog_search_terms": ["light", "lamp", "orange light"],
+        "primitives_fallback": "Emissive orange materials on window/door insets + Unity point lights (lights do the actual illumination, per ASSETS.md E1/E2).",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_Chimney",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Crooked brick chimney on the roof, leaning a few degrees, with a faint smoke wisp (the film house's crooked smoking chimney) - silhouette dressing.",
+        "quantity": 1,
+        "catalog_search_terms": ["chimney", "brick"],
+        "primitives_fallback": "Tilted box with brick material + a slightly wider cap box.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_DeadVines",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Dead vines / ivy crawling up one corner of the facade - haunted dressing that softens the backdrop edge.",
+        "quantity": 2,
+        "catalog_search_terms": ["vine", "ivy", "plant", "decal"],
+        "primitives_fallback": "Dark branching decal planes on the wall + a few thin curved cylinders at the base.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "Facade_ToothPlanks",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Jagged SPLINTERED TOOTH PLANKS for the monster mouth (film reference): uneven broken wooden planks hanging down from the top of the porch/door opening like teeth, with matching shorter splinters along the bottom edge. This is what turns the doorway into a mouth - do not skip or soften it.",
+        "quantity": 1,
+        "catalog_search_terms": ["planks", "broken wood", "splintered wood", "boards"],
+        "primitives_fallback": "8-12 thin boxes of random lengths/tilts with pointed (rotated 45-degree cut look) ends, weathered pale wood, hung along the top of the porch opening; 5-6 shorter ones along the bottom.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Facade_BrowRoofline",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The FURROWED BROW roofline (film reference): the roof edge / upper trim above the eye windows angles down toward the middle like a scowl, completing the mad face with the eye windows.",
+        "quantity": 1,
+        "catalog_search_terms": ["roof trim", "gable", "fascia board"],
+        "primitives_fallback": "Two long trim boxes angled down toward the center above the eye windows, dark shingle/wood material, plus a short center dip piece.",
+        "source_type": "UNITY"
+      }
+    ],
+    "poker": [
+      {
+        "name": "PokerTable_Main",
+        "design_name": "PokerTable_Main",
+        "proposed_name": false,
+        "description": "Primary poker table, center (7.5, 0, 18) in the yard's poker pit: oval/round table, green felt, 8 seats evenly spaced, all sittable. Yard dressing: a weathered outdoor game table that still reads clearly as the poker table. Keep its 1.5-unit clear ring empty.",
+        "quantity": 1,
+        "catalog_search_terms": ["table", "round table", "game table", "poker"],
+        "primitives_fallback": "Flattened cylinder top with green felt material + cylinder pedestal base; thin gold trim torus/cylinder ring on the rim.",
+        "source_type": "CAT-FREE",
+        "note": "No confirmed 'poker table' listing exists in the official catalog sources (ASSETS.md A1) - a generic round table with a green felt material swap is the plan; a true casino poker table would be CUSTOM and must not block the build."
+      },
+      {
+        "name": "PokerTable_Overflow",
+        "design_name": "PokerTable_Overflow",
+        "proposed_name": false,
+        "description": "Second 8-seat poker table, center (7.5, 0, 11) - tournament/overflow table, same style as PokerTable_Main, 1.5-unit clear ring.",
+        "quantity": 1,
+        "catalog_search_terms": ["table", "round table", "game table", "poker"],
+        "primitives_fallback": "Same primitive build as PokerTable_Main.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "PokerSeat",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Chairs around both poker tables - 8 per table. DESIGN.md requires 8 sittable seats per table but names the chairs nowhere, so this name is proposed. Sit Anchor Point required on every chair.",
+        "quantity": 16,
+        "catalog_search_terms": ["chair"],
+        "primitives_fallback": "Box seat + box back on 4 short box legs, dark wood; add the Anchor Point at seat height.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "PokerSign",
+        "design_name": "PokerSign",
+        "proposed_name": false,
+        "description": "Double-sided neon sign hanging above the main poker table at Y 4: 'POKER'. In the yard, hang it from a crooked wooden post/branch frame instead of a ceiling.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "neon sign"],
+        "primitives_fallback": "Flat emissive box panel + text panel reading POKER, hung from two thin posts.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "ChipDecor_Poker",
+        "design_name": "ChipDecor_Poker",
+        "proposed_name": false,
+        "description": "Static chip stacks + card props on both poker tables - non-interactive dressing only (real game state lives in the bots, never in the scene).",
+        "quantity": 2,
+        "catalog_search_terms": ["chips", "cards", "casino"],
+        "primitives_fallback": "Small colored cylinders/discs stacked as chip piles + thin white boxes as cards (ASSETS.md A3 fallback). No catalog item is confirmed for these.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "PokerPitRailing",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Low gold railing (height 0.9) edging the poker pit, with walk-through gaps on the aisle side - DESIGN section 3 Zone B requires the railings but names them nowhere. Yard dressing: crooked low fence rails with gold trim.",
+        "quantity": 1,
+        "catalog_search_terms": ["railing", "fence", "rope divider"],
+        "primitives_fallback": "Thin box rails on short posts, gold material, with gaps left at the aisle-side corners.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "PokerSpotlight",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Warm white spotlight pool over PokerTable_Main (DESIGN Zone B1 accent light; lights are unnamed in DESIGN).",
+        "quantity": 1,
+        "catalog_search_terms": ["light", "spotlight", "lamp"],
+        "primitives_fallback": "Unity spotlight from above the table - light only, no visible fixture needed in the open yard.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotStation_Poker",
+        "design_name": "BotStation_Poker",
+        "proposed_name": false,
+        "description": "Bot station anchor (DESIGN section 5): LJAAYY2's default station at (7.5, 0, 20.2), north/dealer side of PokerTable_Main, facing south toward the table. Invisible anchor object with this exact name.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the DESIGN coordinates with the exact name; pair with BotDisc_Poker as its visible marker.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotDisc_Poker",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Gold floor disc, radius 0.5, under BotStation_Poker - the physical marker DESIGN section 5 requires for this station (the disc itself is unnamed in DESIGN).",
+        "quantity": 1,
+        "catalog_search_terms": ["decal", "disc", "marker"],
+        "primitives_fallback": "Flat gold cylinder (radius 0.5, height 0.02) at the station spot.",
+        "source_type": "UNITY"
+      }
+    ],
+    "blackjack": [
+      {
+        "name": "BlackjackTable_Main",
+        "design_name": "BlackjackTable_Main",
+        "proposed_name": false,
+        "description": "Classic half-moon blackjack table, center (19, 0, 18), directly ahead of the aisle: 7 player seats on the curved side (facing north), dealer position on the flat north side. Busiest table in the world - keep its 1.5-unit clear ring empty.",
+        "quantity": 1,
+        "catalog_search_terms": ["table", "desk", "counter", "game table"],
+        "primitives_fallback": "Half-cylinder (cut cylinder) top with green felt material on a box base; a real crescent blackjack table would be CUSTOM (ASSETS.md B1) and must not block the build.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "BlackjackSeat",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Player seats on the curved side of BlackjackTable_Main. DESIGN section 3 B2 specifies SEVEN player seats (this fixes ASSETS.md B2, which said 5 stools per table). Stools fit the yard dressing; Sit Anchor Point required on each.",
+        "quantity": 7,
+        "catalog_search_terms": ["stool", "chair"],
+        "primitives_fallback": "Cylinder seat on a cylinder leg with a foot ring; add the Anchor Point at seat height.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "BlackjackSign",
+        "design_name": "BlackjackSign",
+        "proposed_name": false,
+        "description": "Double-sided neon sign hanging above BlackjackTable_Main at Y 4: 'BLACKJACK'. In the yard, hang it from a crooked wooden post frame.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "neon sign"],
+        "primitives_fallback": "Flat emissive box panel + text panel reading BLACKJACK, hung from two thin posts.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "PvPBlackjackTable",
+        "design_name": "PvPBlackjackTable",
+        "proposed_name": false,
+        "description": "Second half-moon blackjack table, center (19, 0, 11), mirrored (dealer side south), reserved for PvP blackjack mode so house and PvP games never share a table visually.",
+        "quantity": 1,
+        "catalog_search_terms": ["table", "desk", "counter", "game table"],
+        "primitives_fallback": "Same primitive half-moon build as BlackjackTable_Main, mirrored.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "PvPBlackjackSeat",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Player seats for PvPBlackjackTable. DESIGN gives no seat count for the PvP table; 7 mirrors the main table and is an ASSUMPTION flagged for the parent/QA crews. Sit Anchor Point required on each.",
+        "quantity": 7,
+        "catalog_search_terms": ["stool", "chair"],
+        "primitives_fallback": "Same primitive stool build as BlackjackSeat.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "PvPBlackjackSign",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Sign post beside PvPBlackjackTable reading 'PvP' - DESIGN section 3 B2 requires the sign post but names it nowhere.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "post sign"],
+        "primitives_fallback": "Small flat box panel on a post + text panel reading PvP.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BlackjackCardProps",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Card shoe / chip tray dressing on the blackjack tables (ASSETS.md B3) - static props only, unnamed in DESIGN.",
+        "quantity": 2,
+        "catalog_search_terms": ["box", "tray", "casino", "cards"],
+        "primitives_fallback": "Small open boxes from primitives - enough at this scale; no catalog item confirmed.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BlackjackPitRailing",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Low gold railing (height 0.9) edging the blackjack pit, walk-through gaps on the aisle side (DESIGN Zone B railing rule, unnamed).",
+        "quantity": 1,
+        "catalog_search_terms": ["railing", "fence", "rope divider"],
+        "primitives_fallback": "Thin box rails on short posts, gold material, gaps at the aisle-side corners.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "BlackjackSpotlight",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Cool white spotlight pool over BlackjackTable_Main (DESIGN Zone B2 accent light, unnamed).",
+        "quantity": 1,
+        "catalog_search_terms": ["light", "spotlight", "lamp"],
+        "primitives_fallback": "Unity spotlight from above the table - light only.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotStation_Blackjack",
+        "design_name": "BotStation_Blackjack",
+        "proposed_name": false,
+        "description": "Bot station anchor (DESIGN section 5): LJAAYYBot's (bot #1, the gold-holding bot) permanent station at (19, 0, 19.8), dealer side of BlackjackTable_Main, facing south toward the player seats. Invisible anchor, exact name. LJAAYYBot never leaves this station in v1.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the DESIGN coordinates with the exact name; pair with BotDisc_Blackjack as its visible marker.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotDisc_Blackjack",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Gold floor disc, radius 0.5, under BotStation_Blackjack - physical marker required by DESIGN section 5 (disc itself unnamed there). Also doubles as the dealer standing spot / floor marker from ASSETS.md A4.",
+        "quantity": 1,
+        "catalog_search_terms": ["decal", "disc", "marker"],
+        "primitives_fallback": "Flat gold cylinder (radius 0.5, height 0.02) at the station spot.",
+        "source_type": "UNITY"
+      }
+    ],
+    "trivia": [
+      {
+        "name": "Stage_Platform",
+        "design_name": "Stage_Platform",
+        "proposed_name": false,
+        "description": "Raised trivia stage: X 15-26, Z 24-29, height 0.6 (top Y = 0.6), steps on both ends. Per DESIGN section 2 it is dressed as a yard stage corner in front of the facade - same name, size, and position as DESIGN section 3 Zone D.",
+        "quantity": 1,
+        "catalog_search_terms": ["platform", "stage", "deck"],
+        "primitives_fallback": "Raised box geometry with a worn wood material - full size control, safest build (ASSETS.md C1).",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "StageSteps",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Steps at both ends of Stage_Platform (west end X 15, east end X 26), 3 steps each - required by DESIGN Zone D but unnamed as separate objects.",
+        "quantity": 2,
+        "catalog_search_terms": ["steps", "stairs"],
+        "primitives_fallback": "3 stacked boxes of decreasing depth at each end.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "StageScreen",
+        "design_name": "StageScreen",
+        "proposed_name": false,
+        "description": "Large screen panel on the north side, center (20.5, 3.2, 29.5), minimum 8 x 3.5 - reserved surface for trivia questions / winner names. A plain emissive panel is fine for v1 (scripted content is out of v1 scope).",
+        "quantity": 1,
+        "catalog_search_terms": ["screen", "sign", "banner", "decal"],
+        "primitives_fallback": "Flat box panel with an emissive material; in the yard dressing it can hang on the facade/porch front below the eye windows without covering them.",
+        "source_type": "UNITY",
+        "script_hook_name": "TriviaScreen",
+        "note": "NAME FIX: the scene object is StageScreen (DESIGN section 3). 'TriviaScreen' is only the scripting hook name for the same object - do not create a second object named TriviaScreen."
+      },
+      {
+        "name": "HostSpot",
+        "design_name": "HostSpot",
+        "proposed_name": false,
+        "description": "Floor marker at (20.5, 0.6, 26.5), center stage - where the trivia host stands. Same spot as BotStation_TriviaHost.",
+        "quantity": 1,
+        "catalog_search_terms": ["decal", "marker"],
+        "primitives_fallback": "Flat disc/decal on the stage floor at the DESIGN coordinates.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotStation_TriviaHost",
+        "design_name": "BotStation_TriviaHost",
+        "proposed_name": false,
+        "description": "Bot station anchor (DESIGN section 5): LJAAYYBot's trivia-event station - identical position to HostSpot (20.5, 0.6, 26.5), facing south toward the audience. Used only during trivia events.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the HostSpot coordinates with the exact name (the HostSpot marker is its physical marker).",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "StageSpeaker",
+        "design_name": "StageSpeaker",
+        "proposed_name": false,
+        "description": "Speaker stacks flanking the screen at (15.5, 0.6, 28.5) and (25.5, 0.6, 28.5) - visual props only; actual audio comes from the built-in PlayMusic/Audio system (see radio zone).",
+        "quantity": 2,
+        "catalog_search_terms": ["speaker", "audio", "music"],
+        "primitives_fallback": "Dark box stacks of 2-3 boxes with circle decals as cones (ASSETS.md C2 fallback). No speaker model is confirmed in the catalog.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "TriviaSign",
+        "design_name": "TriviaSign",
+        "proposed_name": false,
+        "description": "Neon sign above the screen at Y 6: 'TRIVIA NIGHT'.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "neon sign"],
+        "primitives_fallback": "Flat emissive box panel + text panel reading TRIVIA NIGHT.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "StageSpotlight",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Two spotlights aimed at HostSpot plus a screen wash, magenta accent (DESIGN Zone D stage lighting, unnamed). In the open yard, mount on crooked posts instead of a ceiling.",
+        "quantity": 2,
+        "catalog_search_terms": ["light", "spotlight"],
+        "primitives_fallback": "Unity spotlights (magenta-tinted) on posts - lights only.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "AudienceFloor_Clear",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "ZONE MARKER, NOT A PROP: the trivia audience floor (X 14-27, Z 20-23, in front of the stage) stays EMPTY - standing room only. DESIGN section 3 Zone D says keep it empty, so this manifest deliberately lists NO audience seating here (this fixes ASSETS.md C7, which suggested 10-15 audience benches/chairs).",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Nothing to build - an empty floor area. Listed only so no crew 'helpfully' furnishes it.",
+        "source_type": "UNITY"
+      }
+    ],
+    "radio": [
+      {
+        "name": "DJBooth",
+        "design_name": "DJBooth",
+        "proposed_name": false,
+        "description": "DJ booth at (34, 0, 27), facing south, in the yard's radio corner: DJ desk + turntable/mixer props, one standing spot behind it (BotStation_Radio). Yard dressing: a crooked wooden booth under the facade's east corner.",
+        "quantity": 1,
+        "catalog_search_terms": ["desk", "dj booth", "counter", "table"],
+        "primitives_fallback": "Box desk + 2 flat cylinder 'turntables' + a small slanted box mixer panel with tiny cylinder knobs.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "RadioSign",
+        "design_name": "RadioSign",
+        "proposed_name": false,
+        "description": "Neon sign above the booth at Y 4.5: 'LJAAYY RADIO'.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "neon sign"],
+        "primitives_fallback": "Flat emissive box panel + text panel reading LJAAYY RADIO.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "RadioInfoSign",
+        "design_name": "RadioInfoSign",
+        "proposed_name": false,
+        "description": "Info panel at (31, 1.6, 24) facing south-west: 'Now playing: LJAAYY Radio - song requests in chat: !song' (placeholder wording per DESIGN - confirm exact command text with bot config at build time). Doubles as the 'LJAAYY Radio' branding surface from ASSETS.md C6.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "notice board", "decal"],
+        "primitives_fallback": "Flat box board on a post + text panel; a custom logo image imported as a decal is an optional CUSTOM extra, not required.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "DanceFloor",
+        "design_name": "DanceFloor",
+        "proposed_name": false,
+        "description": "Flat checker / light-tile dance floor panel, X 30-38, Z 23-25.5. NO furniture on it.",
+        "quantity": 1,
+        "catalog_search_terms": ["floor", "tile", "dance floor", "decal"],
+        "primitives_fallback": "Flat box panel with a checker material; light tiles as alternating emissive squares.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "CornerStool",
+        "design_name": "CornerStool",
+        "proposed_name": false,
+        "description": "Sittable stools around the dance floor edges. Sit Anchor Point required on each.",
+        "quantity": 4,
+        "catalog_search_terms": ["stool", "chair"],
+        "primitives_fallback": "Cylinder seat on a cylinder leg; add the Anchor Point at seat height.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "BotStation_Radio",
+        "design_name": "BotStation_Radio",
+        "proposed_name": false,
+        "description": "Bot station anchor (DESIGN section 5): idle/default station for either bot, behind DJBooth at (34, 0, 27.8), facing south. No physical marker (the booth hides the spot).",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the DESIGN coordinates with the exact name; no mesh.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "Radio_PlayMusic",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "The actual radio sound: the BUILT-IN PlayMusic component (built-in components section of the Asset Catalog) + the Studio Audio service, which can play a radio station URL (PlayMusicURL / PlayFromURL) - this is how LJAAYY Radio plays in-world (ASSETS.md C4/C5, verified built-in). Attach to the DJBooth area. Not a visible prop.",
+        "quantity": 1,
+        "catalog_search_terms": ["PlayMusic", "audio", "music"],
+        "primitives_fallback": "No primitive fallback - it is a built-in component, not a model. If the stream URL is not ready at build time, ship the component with a catalog AudioShader music bed and wire the URL later.",
+        "source_type": "BUILT-IN"
+      },
+      {
+        "name": "RadioAccentLights",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Cyan/magenta alternating accent lights over the booth + dance floor - the 'music' color code, distinct from the stage's magenta-only (DESIGN Zone E lighting, unnamed).",
+        "quantity": 2,
+        "catalog_search_terms": ["light", "lamp"],
+        "primitives_fallback": "Unity point lights, one cyan and one magenta, over the booth and dance floor.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "RadioMicStand",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Microphone + stand prop at the booth/host spot (ASSETS.md C3) - marks where a host stands. Unnamed in DESIGN; optional dressing.",
+        "quantity": 1,
+        "catalog_search_terms": ["microphone", "mic", "mic stand"],
+        "primitives_fallback": "Thin cylinder stand + small tilted capsule/cylinder as the mic. No catalog mic is confirmed.",
+        "source_type": "UNITY"
+      }
+    ],
+    "rps": [
+      {
+        "name": "RPSCircle",
+        "design_name": "RPSCircle",
+        "proposed_name": false,
+        "description": "The RPS dueling arena: flat circular floor decal at (7.5, 0, 10), radius 2.5, gold ring, with three icons (rock / paper / scissors) equally spaced on the ring. Standing game - no table.",
+        "quantity": 1,
+        "catalog_search_terms": ["decal", "circle", "arena", "rug"],
+        "primitives_fallback": "Flat cylinder (radius 2.5, height 0.02) with a gold ring material + 3 small icon decals/panels placed on the ring.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "RPSPodium_A",
+        "design_name": "RPSPodium_A",
+        "proposed_name": false,
+        "description": "Duelist podium A at (5.5, 0, 10), facing east toward RPSPodium_B. Low standing podium.",
+        "quantity": 1,
+        "catalog_search_terms": ["podium", "stand", "pedestal"],
+        "primitives_fallback": "Low tapered box (wider at the base) at standing height.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "RPSPodium_B",
+        "design_name": "RPSPodium_B",
+        "proposed_name": false,
+        "description": "Duelist podium B at (9.5, 0, 10), facing west toward RPSPodium_A. Low standing podium.",
+        "quantity": 1,
+        "catalog_search_terms": ["podium", "stand", "pedestal"],
+        "primitives_fallback": "Same primitive build as RPSPodium_A.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "RPSSign",
+        "design_name": "RPSSign",
+        "proposed_name": false,
+        "description": "Post sign at (7.5, 1.8, 7.8) facing south: 'ROCK PAPER SCISSORS - tournaments in chat: !rps'.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign", "post sign"],
+        "primitives_fallback": "Flat box panel on a post + text panel with the DESIGN wording.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "RPSSpectatorStool",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Spectator stools ringed at radius 3.5 (N/E/S/W) around RPSCircle, OUTSIDE the duel ring. DESIGN requires the 4 stools but names them nowhere. Sit Anchor Point required on each.",
+        "quantity": 4,
+        "catalog_search_terms": ["stool", "chair"],
+        "primitives_fallback": "Cylinder seat on a cylinder leg; add the Anchor Point at seat height.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "BotStation_RPS",
+        "design_name": "BotStation_RPS",
+        "proposed_name": false,
+        "description": "Bot station anchor (DESIGN section 5): LJAAYY2's RPS-tournament referee station at (7.5, 0, 13.5), just north of RPSCircle, facing south toward the circle. Event mode only. Invisible anchor, exact name.",
+        "quantity": 1,
+        "catalog_search_terms": [],
+        "primitives_fallback": "Empty GameObject at the DESIGN coordinates with the exact name; pair with BotDisc_RPS as its visible marker.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "BotDisc_RPS",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Small gold disc under BotStation_RPS - physical marker required by DESIGN section 5 (disc itself unnamed there).",
+        "quantity": 1,
+        "catalog_search_terms": ["decal", "disc", "marker"],
+        "primitives_fallback": "Flat gold cylinder (height 0.02) at the station spot.",
+        "source_type": "UNITY"
+      }
+    ],
+    "vip_porch": [
+      {
+        "name": "VIP_Platform",
+        "design_name": "VIP_Platform",
+        "proposed_name": false,
+        "description": "Raised VIP platform: X 2-12, Z 23-29 at Y 3.2, overlooking the poker pit and the whole yard. DESIGN section 2 dresses the VIP mezzanine as the raised PORCH / yard overlook - same name, footprint, and height; finish it as a big crooked porch deck attached to the facade's west side.",
+        "quantity": 1,
+        "catalog_search_terms": ["platform", "deck", "porch"],
+        "primitives_fallback": "Box slab at Y 3.2 on crooked posts, worn porch-board material on top.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "VIPRailing",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Railing (height 1.0, glass or open-rail finish) on the platform's south edge (Z=23) and east edge (X=12) - required by DESIGN Zone F as part of the platform but unnamed as its own object. Porch dressing: crooked wooden porch railing.",
+        "quantity": 1,
+        "catalog_search_terms": ["railing", "fence", "balustrade"],
+        "primitives_fallback": "Top rail box + vertical baluster boxes, slightly uneven spacing for the crooked-porch look.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "VIPStairs",
+        "design_name": "VIPStairs",
+        "proposed_name": false,
+        "description": "Single straight stair run along the west wall (X 2-4) from (3, 0, 22) up to (3, 3.2, 24) - entry from the casino floor's NW corner.",
+        "quantity": 1,
+        "catalog_search_terms": ["stairs", "steps"],
+        "primitives_fallback": "Series of stacked boxes rising from Z 22 to Z 24 up to Y 3.2.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "VIPGateSign",
+        "design_name": "VIPGateSign",
+        "proposed_name": false,
+        "description": "Small gold sign at the stair base (3.5, 1.8, 22.5): 'VIP'. v1 is open access - gating by gold/role is a later scripting task (DESIGN section 6), so no gate asset is listed.",
+        "quantity": 1,
+        "catalog_search_terms": ["sign"],
+        "primitives_fallback": "Small flat gold box panel + text panel reading VIP.",
+        "source_type": "UNITY"
+      },
+      {
+        "name": "VIPTable",
+        "design_name": "VIPTable",
+        "proposed_name": false,
+        "description": "Small round 4-seat tables at (5, 3.2, 26) and (9.5, 3.2, 26), premium black + gold finish. Social only - NO bot games run up here in v1.",
+        "quantity": 2,
+        "catalog_search_terms": ["table", "round table"],
+        "primitives_fallback": "Flattened cylinder top (black material, gold trim ring) on a cylinder pedestal.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "VIPChair",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "Chairs for the two VIP tables - 4 per table (DESIGN specifies 4-seat tables but names no chairs). Sit Anchor Point required on each.",
+        "quantity": 8,
+        "catalog_search_terms": ["chair", "armchair"],
+        "primitives_fallback": "Box seat + box back/arms in black + gold trim colors; add Anchor Points.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "VIPLoungeSet",
+        "design_name": "VIPLoungeSet",
+        "proposed_name": false,
+        "description": "Plush sofa + chairs at (7, 3.2, 28) against the north wall, facing south over the railing - the view seats. All sittable, Anchor Points required.",
+        "quantity": 1,
+        "catalog_search_terms": ["sofa", "couch", "armchair"],
+        "primitives_fallback": "Box-base sofa with box back/arms in plush dark colors + 2 box armchairs.",
+        "source_type": "CAT-FREE",
+        "sit_anchor_required": true
+      },
+      {
+        "name": "VIPBarShelf",
+        "design_name": "VIPBarShelf",
+        "proposed_name": false,
+        "description": "Small shelf + bottle dressing on the north wall at (10.5, 3.2, 28.8).",
+        "quantity": 1,
+        "catalog_search_terms": ["shelf", "bar"],
+        "primitives_fallback": "Flat box shelf + small colored cylinders as bottles.",
+        "source_type": "CAT-FREE"
+      },
+      {
+        "name": "VIPSpotlight",
+        "design_name": null,
+        "proposed_name": true,
+        "description": "One gold-warm spotlight per VIP table; the whole porch keeps gold warm, low lighting (DESIGN Zone F lighting, unnamed).",
+        "quantity": 2,
+        "catalog_search_terms": ["light", "spotlight", "lamp"],
+        "primitives_fallback": "Unity spotlights (warm gold tint) above each VIP table - lights only.",
+        "source_type": "UNITY"
+      }
+    ]
+  },
+  "mismatches_fixed": [
+    "BLACKJACK SEATS: ASSETS.md B2 said 5 stools per blackjack table; DESIGN.md section 3 B2 specifies 7 player seats on BlackjackTable_Main. Manifest uses 7 (BlackjackSeat x7). PvPBlackjackTable has no DESIGN seat count - manifest mirrors 7 and flags it as an assumption.",
+    "TRIVIA AUDIENCE SEATING: ASSETS.md C7 suggested 10-15 audience benches/chairs facing the stage; DESIGN.md section 3 Zone D says the audience floor (X 14-27, Z 20-23) stays EMPTY. Manifest lists no audience seating in the trivia zone and adds the AudienceFloor_Clear marker so nobody furnishes it.",
+    "STAGE SCREEN NAME: DESIGN.md section 3 names the object StageScreen and gives TriviaScreen as its scripting hook name. Manifest records both on one entry (design_name StageScreen, script_hook_name TriviaScreen) so the builder does not create a duplicate or misnamed object.",
+    "ENTRY PLANTERS: DESIGN Zone A / ASSETS.md described palms; DESIGN section 2's Monster House style (dead, autumn, haunted) overrides the dressing. EntryPlanter and LoungePlant now specify dead shrubs / bare branches, not palms.",
+    "INDOOR-TO-YARD REGROUPING: ASSETS.md was written for an indoor casino lounge (Zones A-F). Per DESIGN section 2 the playable world is the front yard with the house as a background facade (Z 23-30). Manifest regroups everything into front_yard / facade / poker / blackjack / trivia / radio / rps / vip_porch, re-dresses the lounge (Zone C) pieces as yard social seating in front_yard, and the VIP mezzanine (Zone F) as the raised VIP porch - while keeping every DESIGN section 3/5 object name, position, and clearance unchanged.",
+    "UNNAMED ITEMS GIVEN PROPOSED NAMES: DESIGN describes but never names the table chairs/stools, RPS spectator stools, pit railings, pit/stage/VIP lights, bot-station gold discs, the PvP sign post, stage steps, the VIP railing, and all facade/yard backdrop pieces. Each got a proposed manifest name with proposed_name: true and design_name: null, so QA can tell DESIGN names from manifest inventions at a glance.",
+    "FILM-REFERENCE CORRECTION (user, 2026-11-22): facade/yard entries updated to the ACTUAL film house per repo/00-reference/REFERENCE.md - weathered gray-brown wood siding, steep shingled roof, crooked (smoking) chimney, two GLOWING ORANGE eye windows (was 'dim amber'), furrowed-brow roofline (new Facade_BrowRoofline), jagged splintered tooth planks for the monster mouth (new Facade_ToothPlanks), sagging porch boards, bare gnarled trees (Yard_TwistedTree now x2), Facade_AmberGlow renamed Facade_OrangeGlow, and the two lawn signs added (Yard_SignKeepAway 'KEEP AWAY', Yard_SignBeware 'BEWARE'). NOTE: this supersedes the earlier 'original in-style only / no replica' style_rule wording in DESIGN.md section 2 - the user explicitly directed a ~95% replica of the film house; the manifest follows the user's latest direction and defers to REFERENCE.md for facade details."
+  ]
+}
