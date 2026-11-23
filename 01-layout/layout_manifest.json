@@ -1,0 +1,1942 @@
+{
+  "world": {
+    "name": "Monster House - REAL GAMBLERS front yard",
+    "owner": "LJAAYY",
+    "owner_user_id": "62606c8bd2268ffe576634c1",
+    "source_spec": "DESIGN.md S1-S5, with the S2 front-yard refinement and the 2026-11-22 film-accuracy correction applied (see LAYOUT.md 'Conflicts resolved')",
+    "grid": {
+      "units": "1 unit = 1 floor tile",
+      "origin": "south-west corner of the 40x30 plot",
+      "axes": "X east, Z north, Y up; floor top at Y=0",
+      "footprint_x": [
+        0,
+        40
+      ],
+      "footprint_z": [
+        0,
+        30
+      ]
+    },
+    "spawn_point": {
+      "x": 20,
+      "y": 0,
+      "z": 3,
+      "facing": "north (+Z)"
+    }
+  },
+  "rules": {
+    "central_aisle_front_walkway": {
+      "rect": {
+        "x": [
+          18,
+          22
+        ],
+        "z": [
+          2,
+          22
+        ]
+      },
+      "rule": "Keep completely clear of furniture/decor. It is both the DESIGN S1 central aisle and the film house's straight front walkway (street -> porch).",
+      "spec_exceptions": [
+        "BlackjackTable_Main",
+        "PvPBlackjackTable",
+        "BotStation_Blackjack"
+      ],
+      "exception_reason": "QA ruling (Jett, 2026-11-22): DESIGN S3's specific table placements WIN over S1's general aisle rule. The exemption covers exactly these two tables AND their 1.5-unit clear rings where the rings overlap the aisle - the walkway leads into the blackjack pit and the tables are its terminus. Every other object, and every other table's ring, is kept out of the aisle. See LAYOUT.md 'Conflicts resolved' #1."
+    },
+    "game_table_clear_ring_units": 1.5,
+    "clear_ring_rule": "No decor/furniture inside a game table's 1.5-unit ring. Bot dealer anchors (BotStation_*) sit on the dealer side by DESIGN S5 and are exempt; hanging signs (Y>=3.5) and on-table dressing are not ground intrusions.",
+    "house_facade_zone": {
+      "x": [
+        8,
+        32
+      ],
+      "z": [
+        23,
+        30
+      ],
+      "rule": "Background only, not enterable in v1. Only facade/porch objects live here."
+    },
+    "rotation_convention": "rotation_y_deg: 0 = facing north (+Z), 90 = east, 180 = south, 270 = west."
+  },
+  "zones": [
+    {
+      "name": "Zone A - Entry / Street",
+      "bounds": {
+        "x": [
+          0,
+          40
+        ],
+        "z": [
+          0,
+          6
+        ]
+      },
+      "what": "Street, gate, spawn, front walkway start, KEEP AWAY / BEWARE signs at Z 9 flank the walkway just north of this zone."
+    },
+    {
+      "name": "Zone B - Casino Floor (yard pits)",
+      "bounds": {
+        "x": [
+          2,
+          24
+        ],
+        "z": [
+          8,
+          22
+        ]
+      },
+      "what": "Yard casino floor: poker pit NW, blackjack pit center-north, RPS circle SW."
+    },
+    {
+      "name": "Zone C - Chill Hangout (east yard)",
+      "bounds": {
+        "x": [
+          26,
+          40
+        ],
+        "z": [
+          8,
+          22
+        ]
+      },
+      "what": "East yard lounge: sofas, bar. No game tables."
+    },
+    {
+      "name": "Zone D - Trivia (porch stage)",
+      "bounds": {
+        "x": [
+          12,
+          28
+        ],
+        "z": [
+          22,
+          25
+        ]
+      },
+      "what": "Trivia at the porch: host on the porch steps, screen + sign on the facade, audience stands in the yard facing the house."
+    },
+    {
+      "name": "Zone E - Radio Corner (NE yard)",
+      "bounds": {
+        "x": [
+          30,
+          40
+        ],
+        "z": [
+          17,
+          23
+        ]
+      },
+      "what": "Radio corner booth + dance floor, NE yard corner."
+    },
+    {
+      "name": "Zone F - VIP Overlook (west yard)",
+      "bounds": {
+        "x": [
+          0,
+          12
+        ],
+        "z": [
+          21,
+          29
+        ]
+      },
+      "what": "VIP raised overlook deck in the west side yard + the yard's bare trees."
+    },
+    {
+      "name": "Zone H - Monster House Facade (background, not enterable)",
+      "bounds": {
+        "x": [
+          8,
+          32
+        ],
+        "z": [
+          23,
+          30
+        ]
+      },
+      "what": "The Monster House itself - background backdrop looking mad over the yard. Not enterable."
+    },
+    {
+      "name": "Perimeter",
+      "bounds": {
+        "x": [
+          0,
+          40
+        ],
+        "z": [
+          0,
+          30
+        ]
+      },
+      "what": "Crooked picket fence around the plot, gate opening at the walkway (X 17-23, Z 0)."
+    }
+  ],
+  "objects": [
+    {
+      "name": "SpawnPoint",
+      "zone": "Zone A - Entry / Street",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 3
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "World spawn per DESIGN S1/S3, facing north (+Z) down the front walkway."
+    },
+    {
+      "name": "EntryArch",
+      "zone": "Zone A - Entry / Street",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 0.25
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 0.5
+      },
+      "notes": "Front gate arch in the south fence, X 17-23 at Z 0, 5 high, gold trim (yard dress: crooked picket gate arch)."
+    },
+    {
+      "name": "MarqueeSign",
+      "zone": "Zone A - Entry / Street",
+      "type": "sign_hanging",
+      "level": "hanging",
+      "position": {
+        "x": 20,
+        "y": 5.5,
+        "z": 0.6
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 0.2
+      },
+      "notes": "Above the gate arch, yard-facing side, Y 5.5. Text: world name + 'POKER - BLACKJACK - RPS - TRIVIA'. Neon emissive."
+    },
+    {
+      "name": "WelcomeSign",
+      "zone": "Zone A - Entry / Street",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 16.5,
+        "y": 1.6,
+        "z": 5.8
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "Rules panel facing south toward spawn, exact text per DESIGN S3 Zone A."
+    },
+    {
+      "name": "BotGreeterAnchor_A",
+      "zone": "Zone A - Entry / Street",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 23.5,
+        "y": 0,
+        "z": 4
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5: LJAAYY2 off-peak greeter station near spawn."
+    },
+    {
+      "name": "EntryPlanter_A",
+      "zone": "Zone A - Entry / Street",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 14,
+        "y": 0,
+        "z": 4
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 0.8
+      },
+      "notes": "Entry planter, yard-dressed as a dead planter - keeps spawn dressed without blocking flow. (DESIGN S3 name: EntryPlanter, 2x.)",
+      "design_name": "EntryPlanter"
+    },
+    {
+      "name": "EntryPlanter_B",
+      "zone": "Zone A - Entry / Street",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 26,
+        "y": 0,
+        "z": 4
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 0.8
+      },
+      "notes": "Entry planter, yard-dressed as a dead planter. (DESIGN S3 name: EntryPlanter, 2x.)",
+      "design_name": "EntryPlanter"
+    },
+    {
+      "name": "EntryBench_A",
+      "zone": "Zone A - Entry / Street",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 10,
+        "y": 0,
+        "z": 5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.8,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable bench facing north - overflow waiting space.",
+      "design_name": "EntryBench"
+    },
+    {
+      "name": "EntryBench_B",
+      "zone": "Zone A - Entry / Street",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 30,
+        "y": 0,
+        "z": 5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.8,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable bench facing north.",
+      "design_name": "EntryBench"
+    },
+    {
+      "name": "AisleWalkway",
+      "zone": "Zone A - Entry / Street",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 12
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 4,
+        "depth_z": 20
+      },
+      "notes": "THE straight front walkway: street/spawn side (Z 2) straight north to the porch steps (Z 22). This is the DESIGN S1 central aisle (X 18-22, Z 2-22) dressed as the film house's front walk - flat decal, the clear-corridor rule applies to everything else.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "StreetSidewalk",
+      "zone": "Zone A - Entry / Street",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 1
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 10,
+        "depth_z": 2
+      },
+      "notes": "Street-side sidewalk strip at the south edge (Z 0-2) - the street end of the front walkway.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "FrontWalkway_NorthLink",
+      "zone": "Zone A - Entry / Street",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 22.1
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 4,
+        "depth_z": 0.4
+      },
+      "notes": "Last flat link of the walkway meeting the porch steps at Z 22.2.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LawnSign_KeepAway",
+      "zone": "Zone A - Entry / Street",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 15.2,
+        "y": 1.2,
+        "z": 9
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "FILM-ACCURATE (user correction 2026-11-22): hand-painted lawn sign reading 'KEEP AWAY', west side flanking the front walkway, facing the street/spawn. Placed west of the PvP blackjack clear ring.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LawnSign_Beware",
+      "zone": "Zone A - Entry / Street",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 23.4,
+        "y": 1.2,
+        "z": 9
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "FILM-ACCURATE (user correction 2026-11-22): hand-painted lawn sign reading 'BEWARE', east side flanking the front walkway, facing the street/spawn. East of the aisle and clear of the PvP ring.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "PokerTable_Main",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "game_table",
+      "level": "ground",
+      "position": {
+        "x": 7.5,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 3.4,
+        "depth_z": 2.4
+      },
+      "notes": "Primary 8-seat poker table, green felt (yard dress: weathered outdoor table, same footprint)."
+    },
+    {
+      "name": "PokerTable_Overflow",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "game_table",
+      "level": "ground",
+      "position": {
+        "x": 13.5,
+        "y": 0,
+        "z": 20.3
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 3.4,
+        "depth_z": 2.4
+      },
+      "notes": "Second 8-seat poker table. RELOCATED from DESIGN's (7.5,0,11): that spot sits on top of RPSCircle - see LAYOUT.md conflicts. Now a porch-side yard pit per DESIGN S2, clear of every ring and the walkway."
+    },
+    {
+      "name": "PokerSign",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "sign_hanging",
+      "level": "hanging",
+      "position": {
+        "x": 7.5,
+        "y": 4,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 2.4,
+        "depth_z": 0.2
+      },
+      "notes": "Double-sided hanging neon sign: 'POKER', above the main table at Y 4."
+    },
+    {
+      "name": "ChipDecor_Poker",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "table_dressing",
+      "level": "dressing",
+      "position": {
+        "x": 7.5,
+        "y": 1.0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 0.6
+      },
+      "notes": "Static chip stacks + card props on the poker tables, non-interactive."
+    },
+    {
+      "name": "BotStation_Poker",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 7.5,
+        "y": 0,
+        "z": 20.2
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5 exact: LJAAYY2 dealer/host side, north of PokerTable_Main, gold floor disc r0.5. Dealer spot - exempt from the table's player clear ring by design."
+    },
+    {
+      "name": "BlackjackTable_Main",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "game_table",
+      "level": "ground",
+      "position": {
+        "x": 19,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 3.4,
+        "depth_z": 2.0
+      },
+      "notes": "Half-moon blackjack table, 7 player seats on the curved (south) side, dealer on the flat north side. DESIGN S3 places it dead ahead of the aisle - the walkway terminates at this pit (see LAYOUT.md conflicts)."
+    },
+    {
+      "name": "BlackjackSign",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "sign_hanging",
+      "level": "hanging",
+      "position": {
+        "x": 19,
+        "y": 4,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 2.6,
+        "depth_z": 0.2
+      },
+      "notes": "Double-sided hanging neon sign: 'BLACKJACK', Y 4."
+    },
+    {
+      "name": "PvPBlackjackTable",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "game_table",
+      "level": "ground",
+      "position": {
+        "x": 19,
+        "y": 0,
+        "z": 11
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 3.4,
+        "depth_z": 2.0
+      },
+      "notes": "Second half-moon table, mirrored (dealer side south), reserved for PvP blackjack so house and PvP never share a table visually."
+    },
+    {
+      "name": "PvPSign",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "table_dressing",
+      "level": "dressing",
+      "position": {
+        "x": 19,
+        "y": 1.1,
+        "z": 10.2
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.15
+      },
+      "notes": "'PvP' sign mounted on the PvP table's south edge (a free-standing post beside the table would sit inside its own clear ring).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BotStation_Blackjack",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 19,
+        "y": 0,
+        "z": 19.8
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5 exact: LJAAYYBot (bot #1) dealer spot, gold floor disc r0.5. Dealer spot - exempt from the table's player clear ring by design."
+    },
+    {
+      "name": "RPSCircle",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 7.5,
+        "y": 0,
+        "z": 10
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 5,
+        "depth_z": 5
+      },
+      "notes": "Flat dueling-circle decal, radius 2.5, gold ring, rock/paper/scissors icons on the ring."
+    },
+    {
+      "name": "RPSPodium_A",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 5.5,
+        "y": 0,
+        "z": 10
+      },
+      "rotation_y_deg": 90,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.8
+      },
+      "notes": "Duelist podium, facing east toward Podium_B."
+    },
+    {
+      "name": "RPSPodium_B",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 9.5,
+        "y": 0,
+        "z": 10
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.8
+      },
+      "notes": "Duelist podium, facing west toward Podium_A."
+    },
+    {
+      "name": "RPSSign",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 7.5,
+        "y": 1.8,
+        "z": 7.8
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "Post sign facing south: 'ROCK PAPER SCISSORS - tournaments in chat: !rps'."
+    },
+    {
+      "name": "SpectatorStool_NE",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 9.97,
+        "y": 0,
+        "z": 12.47
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.6,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable spectator stool. DESIGN put 4 stools at N/E/S/W radius 3.5 - the north spot is exactly BotStation_RPS, so all four stools sit on the diagonals instead (see LAYOUT.md conflicts).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "SpectatorStool_NW",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 5.03,
+        "y": 0,
+        "z": 12.47
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.6,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable spectator stool (diagonal placement).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "SpectatorStool_SE",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 9.97,
+        "y": 0,
+        "z": 7.53
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.6,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable spectator stool (diagonal placement).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "SpectatorStool_SW",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 5.03,
+        "y": 0,
+        "z": 7.53
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.6,
+        "depth_z": 0.6
+      },
+      "notes": "Sittable spectator stool (diagonal placement).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BotStation_RPS",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 7.5,
+        "y": 0,
+        "z": 13.5
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5 exact: LJAAYY2 referee spot just north of RPSCircle, small gold disc."
+    },
+    {
+      "name": "PokerPitRail_W",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "railing",
+      "level": "ground",
+      "position": {
+        "x": 2.8,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.2,
+        "depth_z": 6
+      },
+      "notes": "Low gold pit railing (h 0.9), west edge of the poker pit - outside PokerTable_Main's clear ring.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BlackjackPitRail_E",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "railing",
+      "level": "ground",
+      "position": {
+        "x": 23.5,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.2,
+        "depth_z": 6
+      },
+      "notes": "Low gold pit railing, east edge of the blackjack pit - outside the table's clear ring and east of the walkway.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeRail_W",
+      "zone": "Zone B - Casino Floor (yard pits)",
+      "type": "railing",
+      "level": "ground",
+      "position": {
+        "x": 25.3,
+        "y": 0,
+        "z": 15
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.2,
+        "depth_z": 10
+      },
+      "notes": "Low railing separating the casino floor from the east lounge, with walk-through gaps at its ends.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeSofa_1",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 29,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 1.1,
+        "depth_z": 2.6
+      },
+      "notes": "L-shaped sofa set 1, facing west. Sittable, with 2 armchairs + coffee table."
+    },
+    {
+      "name": "LoungeSofa_2",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 35,
+        "y": 0,
+        "z": 12
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 2.6,
+        "depth_z": 1.1
+      },
+      "notes": "L-shaped sofa set 2, facing north. Sittable, with 2 armchairs + coffee table."
+    },
+    {
+      "name": "LoungeArmchair_1A",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 29,
+        "y": 0,
+        "z": 15.6
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "Armchair for sofa set 1, facing west.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeArmchair_1B",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 29,
+        "y": 0,
+        "z": 20.4
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "Armchair for sofa set 1, facing west.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeArmchair_2A",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 32.9,
+        "y": 0,
+        "z": 12
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "Armchair for sofa set 2.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeArmchair_2B",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.1,
+        "y": 0,
+        "z": 12
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "Armchair for sofa set 2.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeCoffeeTable_1",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 27.6,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 1.2
+      },
+      "notes": "Low coffee table in front of sofa set 1.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeCoffeeTable_2",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 35,
+        "y": 0,
+        "z": 10.6
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 1.2
+      },
+      "notes": "Low coffee table in front of sofa set 2.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungeRug_1",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 28.3,
+        "y": 0,
+        "z": 18
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 4.4,
+        "depth_z": 5.4
+      },
+      "notes": "Muted rug under sofa set 1 (yard dress: faded outdoor rug).",
+      "design_name": "LoungeRug"
+    },
+    {
+      "name": "LoungeRug_2",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 35,
+        "y": 0,
+        "z": 11.6
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 5.6,
+        "depth_z": 3.6
+      },
+      "notes": "Muted rug under sofa set 2.",
+      "design_name": "LoungeRug"
+    },
+    {
+      "name": "BarCounter",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 38.75,
+        "y": 0,
+        "z": 16
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.5,
+        "depth_z": 6
+      },
+      "notes": "Non-functional bar counter along the east fence, X 38-39.5, Z 13-19, back shelf with bottle dressing."
+    },
+    {
+      "name": "BarStool_1",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.6,
+        "y": 0,
+        "z": 13.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable bar stool.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BarStool_2",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.6,
+        "y": 0,
+        "z": 14.9
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable bar stool.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BarStool_3",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.6,
+        "y": 0,
+        "z": 16.3
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable bar stool.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BarStool_4",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.6,
+        "y": 0,
+        "z": 17.7
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable bar stool.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BarStool_5",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.6,
+        "y": 0,
+        "z": 19.1
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable bar stool.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "BarSign",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "sign_hanging",
+      "level": "hanging",
+      "position": {
+        "x": 38.5,
+        "y": 3.5,
+        "z": 16
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 2.4,
+        "depth_z": 0.2
+      },
+      "notes": "Small sign above the bar facing west into the lounge: 'THE LOUNGE'. The lounge's only neon.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "LoungePlant_1",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 27,
+        "y": 0,
+        "z": 21
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.7,
+        "depth_z": 0.7
+      },
+      "notes": "Tall plant, soft zone divider (yard dress: dead shrub).",
+      "design_name": "LoungePlant"
+    },
+    {
+      "name": "LoungePlant_2",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 38,
+        "y": 0,
+        "z": 9
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.7,
+        "depth_z": 0.7
+      },
+      "notes": "Tall plant, corner (yard dress: dead shrub).",
+      "design_name": "LoungePlant"
+    },
+    {
+      "name": "LoungePlant_3",
+      "zone": "Zone C - Chill Hangout (east yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 27,
+        "y": 0,
+        "z": 9
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.7,
+        "depth_z": 0.7
+      },
+      "notes": "Tall plant, corner (yard dress: dead shrub).",
+      "design_name": "LoungePlant"
+    },
+    {
+      "name": "Stage_Platform",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "platform",
+      "level": "ground",
+      "position": {
+        "x": 20.5,
+        "y": 0,
+        "z": 22.6
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 7,
+        "depth_z": 0.8
+      },
+      "notes": "DESIGN S3 name kept. In the yard layout this is the low stage formed by the porch steps in front of the house, X 17-24, Z 22.2-23, top Y 0.6 (same height as the spec stage). The trivia host stands here; the audience in the yard faces the house.",
+      "top_y": 0.6
+    },
+    {
+      "name": "HostSpot",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "anchor",
+      "level": "steps",
+      "position": {
+        "x": 20.5,
+        "y": 0.6,
+        "z": 22.6
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S3/S5 trivia host spot, relocated from the old interior stage (20.5,0.6,26.5) to the porch steps - Z 23-30 is the house backdrop and not enterable in v1 (see LAYOUT.md conflicts). Same Y 0.6, center of the porch front."
+    },
+    {
+      "name": "BotStation_TriviaHost",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "anchor_alias",
+      "level": "steps",
+      "position": {
+        "x": 20.5,
+        "y": 0.6,
+        "z": 22.6
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5 anchor name for the same physical marker as HostSpot (the spec itself says the anchor IS the HostSpot marker). Co-located alias, not a second object.",
+      "co_located_with": "HostSpot"
+    },
+    {
+      "name": "StageSpeaker_L",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "furniture",
+      "level": "porch",
+      "position": {
+        "x": 13.5,
+        "y": 0.6,
+        "z": 23.8
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.8
+      },
+      "notes": "Speaker stack on the porch, west end, flanking the trivia screen/door.",
+      "design_name": "StageSpeaker"
+    },
+    {
+      "name": "StageSpeaker_R",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "furniture",
+      "level": "porch",
+      "position": {
+        "x": 27.5,
+        "y": 0.6,
+        "z": 23.8
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.8
+      },
+      "notes": "Speaker stack on the porch, east end.",
+      "design_name": "StageSpeaker"
+    },
+    {
+      "name": "StageScreen",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 20.5,
+        "y": 4.6,
+        "z": 24.9
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 8,
+        "depth_z": 0.1
+      },
+      "notes": "Large screen panel (8 x 2.4) mounted on the house facade above the porch. DESIGN S3 object name is StageScreen; its scripting hook name is TriviaScreen. Moved onto the facade since the north end is backdrop, not a room. Reserved for trivia questions / winner names.",
+      "panel_height": 2.4,
+      "scripting_hook": "TriviaScreen"
+    },
+    {
+      "name": "TriviaSign",
+      "zone": "Zone D - Trivia (porch stage)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 20.5,
+        "y": 6.5,
+        "z": 24.9
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 0.1
+      },
+      "notes": "Neon sign above the screen on the facade: 'TRIVIA NIGHT'.",
+      "panel_height": 0.6
+    },
+    {
+      "name": "DJBooth",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 34,
+        "y": 0,
+        "z": 21.3
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 2.4,
+        "depth_z": 1.0
+      },
+      "notes": "Radio corner booth in the NE yard corner (DESIGN S2: radio in a corner booth), facing south. DJ desk + turntable/mixer props. Relocated from the old Zone E interior spot (34,0,27) - that ground is house backdrop now."
+    },
+    {
+      "name": "BotStation_Radio",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "anchor",
+      "level": "ground",
+      "position": {
+        "x": 34,
+        "y": 0,
+        "z": 22.3
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1,
+        "depth_z": 1
+      },
+      "notes": "DESIGN S5 radio station, directly behind DJBooth (booth hides the spot). Moved with the booth, keeping the same booth-relative position."
+    },
+    {
+      "name": "RadioSign",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "sign_hanging",
+      "level": "hanging",
+      "position": {
+        "x": 34,
+        "y": 4.5,
+        "z": 21.3
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 2.6,
+        "depth_z": 0.2
+      },
+      "notes": "Neon sign above the booth: 'LJAAYY RADIO'."
+    },
+    {
+      "name": "RadioInfoSign",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 31.5,
+        "y": 1.6,
+        "z": 20.8
+      },
+      "rotation_y_deg": 225,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "Panel facing south-west: 'Now playing: LJAAYY Radio - song requests in chat: !song' (placeholder wording per DESIGN)."
+    },
+    {
+      "name": "DanceFloor",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "floor_decal",
+      "level": "decal",
+      "position": {
+        "x": 34,
+        "y": 0,
+        "z": 19.3
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 2.8
+      },
+      "notes": "Flat checker/light-tile dance panel in front of the booth, X 31-37, Z 17.9-20.7. No furniture on it."
+    },
+    {
+      "name": "CornerStool_1",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 30.6,
+        "y": 0,
+        "z": 19.9
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable stool at the dance floor edge.",
+      "design_name": "CornerStool"
+    },
+    {
+      "name": "CornerStool_2",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 37.4,
+        "y": 0,
+        "z": 19.9
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable stool at the dance floor edge.",
+      "design_name": "CornerStool"
+    },
+    {
+      "name": "CornerStool_3",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 32,
+        "y": 0,
+        "z": 18.2
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable stool at the dance floor edge.",
+      "design_name": "CornerStool"
+    },
+    {
+      "name": "CornerStool_4",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "furniture",
+      "level": "ground",
+      "position": {
+        "x": 36,
+        "y": 0,
+        "z": 18.2
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 0.5
+      },
+      "notes": "Sittable stool at the dance floor edge.",
+      "design_name": "CornerStool"
+    },
+    {
+      "name": "VIP_Platform",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "platform",
+      "level": "ground",
+      "position": {
+        "x": 4.5,
+        "y": 3.2,
+        "z": 26.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 5
+      },
+      "notes": "Raised yard overlook deck (DESIGN S2: VIP as a raised porch/yard overlook), X 1.5-7.5, Z 24-29 at Y 3.2, west side yard beside the house. Slimmed from the old mezzanine footprint so it never overlaps the house facade (X 8+).",
+      "top_y": 3.2
+    },
+    {
+      "name": "VIPStairs",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "stairs",
+      "level": "ground",
+      "position": {
+        "x": 3,
+        "y": 0,
+        "z": 23
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 2,
+        "depth_z": 2
+      },
+      "notes": "Straight stair run X 2-4, Z 22-24, from the yard up to the overlook deck."
+    },
+    {
+      "name": "VIPGateSign",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "sign_panel",
+      "level": "ground",
+      "position": {
+        "x": 4.6,
+        "y": 1.8,
+        "z": 22.5
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.15
+      },
+      "notes": "Small gold sign at the stair base: 'VIP'. v1 open access per DESIGN."
+    },
+    {
+      "name": "VIPTable_1",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "furniture",
+      "level": "deck",
+      "position": {
+        "x": 3.8,
+        "y": 3.2,
+        "z": 25.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 1.2
+      },
+      "notes": "Small round 4-seat table on the deck, black + gold. Social only - no bot games up here in v1.",
+      "design_name": "VIPTable"
+    },
+    {
+      "name": "VIPTable_2",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "furniture",
+      "level": "deck",
+      "position": {
+        "x": 6.2,
+        "y": 3.2,
+        "z": 27.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 1.2,
+        "depth_z": 1.2
+      },
+      "notes": "Small round 4-seat table on the deck. Social only.",
+      "design_name": "VIPTable"
+    },
+    {
+      "name": "VIPLoungeSet",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "furniture",
+      "level": "deck",
+      "position": {
+        "x": 4.3,
+        "y": 3.2,
+        "z": 28.3
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 2.2,
+        "depth_z": 1.0
+      },
+      "notes": "Plush sofa + chairs on the deck facing south over the railing - the view seats."
+    },
+    {
+      "name": "VIPBarShelf",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "decor",
+      "level": "deck",
+      "position": {
+        "x": 7.15,
+        "y": 3.2,
+        "z": 26
+      },
+      "rotation_y_deg": 270,
+      "footprint": {
+        "width_x": 0.5,
+        "depth_z": 1.6
+      },
+      "notes": "Small shelf + bottle dressing against the house's west wall on the deck."
+    },
+    {
+      "name": "VIPRail_S",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "railing",
+      "level": "deck",
+      "position": {
+        "x": 4.5,
+        "y": 3.2,
+        "z": 24.1
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 6,
+        "depth_z": 0.2
+      },
+      "notes": "Overlook railing (h 1.0) along the deck's south edge.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "TwistedTree",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 3.5,
+        "y": 0,
+        "z": 21.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.8,
+        "depth_z": 0.8
+      },
+      "notes": "Bare twisted tree in the NW yard (film mood per DESIGN S2). Clear of PokerTable_Main's ring and the VIP stairs.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "GnarledTree_West",
+      "zone": "Zone F - VIP Overlook (west yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 6.5,
+        "y": 0,
+        "z": 22.8
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "FILM-ACCURATE (user correction 2026-11-22): bare gnarled tree framing the WEST side of the house front.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "GnarledTree_East",
+      "zone": "Zone E - Radio Corner (NE yard)",
+      "type": "decor",
+      "level": "ground",
+      "position": {
+        "x": 36.5,
+        "y": 0,
+        "z": 22.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.9,
+        "depth_z": 0.9
+      },
+      "notes": "FILM-ACCURATE (user correction 2026-11-22): bare gnarled tree framing the EAST side of the house front, NE yard corner.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "MonsterHouse_Facade",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "background_structure",
+      "level": "ground",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 27.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 24,
+        "depth_z": 5
+      },
+      "notes": "The Monster House body: X 8-32, Z 25-30, background only - players never enter it in v1. Film-accurate dressing (angry face, eye windows, mouth porch) is specified by the facade crew against repo/00-reference/REFERENCE.md; this entry fixes its footprint so nothing else is placed inside it.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "MonsterHouse_Roof",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "background_structure",
+      "level": "roof",
+      "position": {
+        "x": 20,
+        "y": 7.5,
+        "z": 27.5
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 25,
+        "depth_z": 5.5
+      },
+      "notes": "Steep crooked shingled roof + furrowed-brow roofline and crooked smoking chimney, per the film reference (facade crew owns the detail).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "HousePorch",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "platform",
+      "level": "ground",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": 24
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 16,
+        "depth_z": 2
+      },
+      "notes": "The monster-mouth porch: X 12-28, Z 23-25, top Y 0.6. Background dressing in v1 (the door/mouth) - the playable porch surface is the steps at its front (Zone D).",
+      "top_y": 0.6,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "EyeWindow_L",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 14,
+        "y": 5.5,
+        "z": 24.95
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1.4,
+        "depth_z": 0.1
+      },
+      "notes": "Upper window = the house's left angry eye, glowing orange (film reference). Mounted on the facade front face.",
+      "panel_height": 1.6,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "EyeWindow_R",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 27,
+        "y": 5.5,
+        "z": 24.95
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1.4,
+        "depth_z": 0.1
+      },
+      "notes": "Upper window = the house's right angry eye, glowing orange (film reference).",
+      "panel_height": 1.6,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "DoorMouth",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 20,
+        "y": 1.5,
+        "z": 24.95
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 1.6,
+        "depth_z": 0.1
+      },
+      "notes": "Front door = the mouth, open with yellow light spilling out (film reference), centered behind the porch.",
+      "panel_height": 3.0,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "PorchLantern_L",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 17.5,
+        "y": 2.2,
+        "z": 24.95
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.3,
+        "depth_z": 0.1
+      },
+      "notes": "Dim amber porch lantern, west of the door.",
+      "panel_height": 0.5,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "PorchLantern_R",
+      "zone": "Zone H - Monster House Facade (background, not enterable)",
+      "type": "facade_mounted",
+      "level": "facade",
+      "position": {
+        "x": 22.5,
+        "y": 2.2,
+        "z": 24.95
+      },
+      "rotation_y_deg": 180,
+      "footprint": {
+        "width_x": 0.3,
+        "depth_z": 0.1
+      },
+      "notes": "Dim amber porch lantern, east of the door.",
+      "panel_height": 0.5,
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_South_W",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 8.5,
+        "y": 0,
+        "z": 0.15
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 17,
+        "depth_z": 0.3
+      },
+      "notes": "Crooked picket fence along the street, west segment X 0-17 (gate opening X 17-23).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_South_E",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 31.5,
+        "y": 0,
+        "z": 0.15
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 17,
+        "depth_z": 0.3
+      },
+      "notes": "Crooked picket fence along the street, east segment X 23-40.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_West",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 0.15,
+        "y": 0,
+        "z": 15
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.3,
+        "depth_z": 29.4
+      },
+      "notes": "West yard fence, Z 0.3-29.7 (butts against the south/north fences at the corners, no double-covered corner squares).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_East",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 39.85,
+        "y": 0,
+        "z": 15
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 0.3,
+        "depth_z": 29.4
+      },
+      "notes": "East yard fence, Z 0.3-29.7 (butts against the south/north fences at the corners).",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_North_W",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 4,
+        "y": 0,
+        "z": 29.85
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 8,
+        "depth_z": 0.3
+      },
+      "notes": "Back fence west of the house, X 0-8.",
+      "design_name": null,
+      "extra_prop": true
+    },
+    {
+      "name": "Fence_North_E",
+      "zone": "Perimeter",
+      "type": "structure",
+      "level": "ground",
+      "position": {
+        "x": 36,
+        "y": 0,
+        "z": 29.85
+      },
+      "rotation_y_deg": 0,
+      "footprint": {
+        "width_x": 8,
+        "depth_z": 0.3
+      },
+      "notes": "Back fence east of the house, X 32-40.",
+      "design_name": null,
+      "extra_prop": true
+    }
+  ]
+}
