@@ -1,0 +1,6 @@
+<hr:UXML xmlns:hr="Highrise.UI">
+    <!-- World-space sign surface above the DJ booth (DESIGN.md Zone E,
+         object "RadioSign"). Bind name must match RadioBoothUI.lua
+         exactly: radioSignLabel -->
+    <hr:UILabel name="radioSignLabel" text="LJAAYY RADIO" />
+</hr:UXML>
