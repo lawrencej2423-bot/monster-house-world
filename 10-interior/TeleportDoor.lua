@@ -6,10 +6,14 @@
 --                              front yard (facade, 02-house-facade). Tap it
 --                              or walk into its trigger -> the player is
 --                              moved to the interior entry landing.
---   TeleportDoor_InteriorExit  the inside face of that same door, in the
---                              interior game floor (10-interior). Tap or
---                              walk in -> back outside, landing on the yard
---                              in front of the porch.
+--   ExitDoor_Trigger           the inside face of that same door, in the
+--                              interior game floor (10-interior). A fresh
+--                              scene-root trigger object (the placed clone
+--                              named TeleportDoor_InteriorExit is visual
+--                              only — a script on the clone never fired;
+--                              scene-root objects fire, proven 2026-11-23).
+--                              Tap or walk in -> back outside, landing on
+--                              the yard in front of the porch.
 --
 -- SETUP: attach ONE copy of this script to EACH door object. Each copy
 -- identifies its door by its own GameObject name (same pattern as the
@@ -74,7 +78,7 @@ local DOORS = {
         facingYawDeg  = 0,
         arriveName    = "inside the house (interior entry)",
     },
-    TeleportDoor_InteriorExit = {
+    ExitDoor_Trigger = {
         triggerCenter = { x = 220, y = 0, z = 0.9 },
         destination   = { x = 20, y = 0, z = 21.5 },
         facingYawDeg  = 180,
@@ -108,7 +112,7 @@ local function ResolveDoor()
     if myConfig == nil then
         print("[TeleportDoor] WARNING: object '" .. tostring(myDoorName)
             .. "' is not a known door name. Attach this script only to "
-            .. "TeleportDoor_Yard or TeleportDoor_InteriorExit. "
+            .. "TeleportDoor_Yard or ExitDoor_Trigger. "
             .. "This copy will do nothing.")
     end
     return myConfig
